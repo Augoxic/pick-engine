@@ -3,7 +3,7 @@
  "season": 2026,
  "week": 3,
  "sigma": 13.19,
- "built_utc": "2026-09-27T03:55Z",
+ "built_utc": "2026-09-27T06:03Z",
  "backtest": {
   "season": 2025,
   "train_games": 3010,
@@ -33,7 +33,7 @@
    {
     "name": "comb",
     "win": 0.6456140350877193,
-    "brier": 0.21758961773646815,
+    "brier": 0.2175896177364682,
     "ats_w": 147,
     "ats_l": 137
    },
@@ -120,6 +120,41 @@
      "away": "Michael Penix Jr.",
      "home": "Jordan Love"
     },
+    "qb_note": {},
+    "injuries": {
+     "away": [
+      {
+       "name": "Samson Ebukam",
+       "pos": "DE",
+       "status": "Out",
+       "injury": "Hamstring",
+       "role": "starter"
+      },
+      {
+       "name": "Billy Bowman Jr.",
+       "pos": "CB",
+       "status": "Questionable",
+       "injury": "Achilles",
+       "role": "starter"
+      }
+     ],
+     "home": [
+      {
+       "name": "Jayden Reed",
+       "pos": "WR",
+       "status": "Out",
+       "injury": "Neck",
+       "role": "key reserve"
+      },
+      {
+       "name": "Javon Hargrave",
+       "pos": "DT",
+       "status": "Questionable",
+       "injury": "Knee",
+       "role": "starter"
+      }
+     ]
+    },
     "qb_last_game": {
      "away": "Tua Tagovailoa",
      "home": "Jordan Love"
@@ -172,6 +207,69 @@
      "away": "Justin Herbert",
      "home": "Josh Allen"
     },
+    "qb_note": {},
+    "injuries": {
+     "away": [
+      {
+       "name": "Charlie Kolar",
+       "pos": "TE",
+       "status": "Out",
+       "injury": "Forearm",
+       "role": "starter"
+      },
+      {
+       "name": "Dalvin Tomlinson",
+       "pos": "DT",
+       "status": "Out",
+       "injury": "Hamstring",
+       "role": "starter"
+      },
+      {
+       "name": "Elijah Molden",
+       "pos": "S",
+       "status": "Out",
+       "injury": "Hamstring",
+       "role": "starter"
+      },
+      {
+       "name": "Trey Lance",
+       "pos": "QB",
+       "status": "Questionable",
+       "injury": "Groin",
+       "role": "key reserve"
+      }
+     ],
+     "home": [
+      {
+       "name": "T.J. Sanders",
+       "pos": "DE",
+       "status": "Out",
+       "injury": "Illness",
+       "role": "starter"
+      },
+      {
+       "name": "DJ Moore",
+       "pos": "WR",
+       "status": "Questionable",
+       "injury": "Shoulder",
+       "role": "starter"
+      },
+      {
+       "name": "Keon Coleman",
+       "pos": "WR",
+       "status": "Questionable",
+       "injury": "Ankle",
+       "role": "key reserve"
+      },
+      {
+       "name": "Ed Oliver",
+       "pos": "DT",
+       "status": "Questionable",
+       "injury": "Hip",
+       "role": "starter"
+      }
+     ]
+    },
     "qb_last_game": {
      "away": "Justin Herbert",
      "home": "Josh Allen"
@@ -221,6 +319,62 @@
     "starting_qb": {
      "away": "Bryce Young",
      "home": "Deshaun Watson"
+    },
+    "qb_note": {},
+    "injuries": {
+     "away": [
+      {
+       "name": "Devin Lloyd",
+       "pos": "LB",
+       "status": "Out",
+       "injury": "Calf",
+       "role": "starter"
+      },
+      {
+       "name": "Nick Scott",
+       "pos": "S",
+       "status": "Out",
+       "injury": "Rib",
+       "role": "starter"
+      },
+      {
+       "name": "Jalen Coker",
+       "pos": "WR",
+       "status": "Questionable",
+       "injury": "Ankle",
+       "role": "key reserve"
+      },
+      {
+       "name": "Xavier Legette",
+       "pos": "WR",
+       "status": "Questionable",
+       "injury": "Knee",
+       "role": "key reserve"
+      }
+     ],
+     "home": [
+      {
+       "name": "Teven Jenkins",
+       "pos": "G",
+       "status": "Out",
+       "injury": "Back",
+       "role": "starter"
+      },
+      {
+       "name": "Grant Delpit",
+       "pos": "S",
+       "status": "Questionable",
+       "injury": "Shoulder",
+       "role": "starter"
+      },
+      {
+       "name": "Tyson Campbell",
+       "pos": "CB",
+       "status": "Questionable",
+       "injury": "Ankle",
+       "role": "starter"
+      }
+     ]
     },
     "qb_last_game": {
      "away": "Bryce Young",
@@ -272,6 +426,48 @@
      "away": "Geno Smith",
      "home": "Jared Goff"
     },
+    "qb_note": {},
+    "injuries": {
+     "away": [
+      {
+       "name": "Mason Taylor",
+       "pos": "TE",
+       "status": "Out",
+       "injury": "Thumb",
+       "role": "key reserve"
+      },
+      {
+       "name": "Minkah Fitzpatrick",
+       "pos": "S",
+       "status": "Out",
+       "injury": "Groin",
+       "role": "starter"
+      },
+      {
+       "name": "Kene Nwangwu",
+       "pos": "RB",
+       "status": "Doubtful",
+       "injury": "Back",
+       "role": "starter"
+      },
+      {
+       "name": "Adonai Mitchell",
+       "pos": "WR",
+       "status": "Questionable",
+       "injury": "Finger",
+       "role": "key reserve"
+      }
+     ],
+     "home": [
+      {
+       "name": "Thomas Harper",
+       "pos": "S",
+       "status": "Out",
+       "injury": "Ankle",
+       "role": "starter"
+      }
+     ]
+    },
     "qb_last_game": {
      "away": "Geno Smith",
      "home": "Jared Goff"
@@ -321,6 +517,41 @@
     "starting_qb": {
      "away": "C.J. Stroud",
      "home": "Daniel Jones"
+    },
+    "qb_note": {},
+    "injuries": {
+     "away": [
+      {
+       "name": "Nico Collins",
+       "pos": "WR",
+       "status": "Out",
+       "injury": "Hamstring",
+       "role": "starter"
+      },
+      {
+       "name": "Trent Brown",
+       "pos": "T",
+       "status": "Questionable",
+       "injury": "Knee",
+       "role": "starter"
+      }
+     ],
+     "home": [
+      {
+       "name": "Ashton Dulin",
+       "pos": "WR",
+       "status": "Out",
+       "injury": "Ankle",
+       "role": "starter"
+      },
+      {
+       "name": "Charvarius Ward",
+       "pos": "CB",
+       "status": "Questionable",
+       "injury": "Groin",
+       "role": "starter"
+      }
+     ]
     },
     "qb_last_game": {
      "away": "C.J. Stroud",
@@ -372,6 +603,33 @@
      "away": "Drake Maye",
      "home": "Trevor Lawrence"
     },
+    "qb_note": {},
+    "injuries": {
+     "away": [
+      {
+       "name": "Dre'Mont Jones",
+       "pos": "LB",
+       "status": "Out",
+       "injury": "Shoulder",
+       "role": "starter"
+      },
+      {
+       "name": "Eli Raridon",
+       "pos": "TE",
+       "status": "Questionable",
+       "injury": "Thigh",
+       "role": "key reserve"
+      },
+      {
+       "name": "Craig Woodson",
+       "pos": "S",
+       "status": "Questionable",
+       "injury": "Shoulder",
+       "role": "starter"
+      }
+     ],
+     "home": []
+    },
     "qb_last_game": {
      "away": "Drake Maye",
      "home": "Trevor Lawrence"
@@ -421,6 +679,41 @@
     "starting_qb": {
      "away": "Patrick Mahomes",
      "home": "Malik Willis"
+    },
+    "qb_note": {},
+    "injuries": {
+     "away": [
+      {
+       "name": "Josh Simmons",
+       "pos": "T",
+       "status": "Out",
+       "injury": "Back",
+       "role": "starter"
+      },
+      {
+       "name": "Chamarri Conner",
+       "pos": "S",
+       "status": "Doubtful",
+       "injury": "Knee",
+       "role": "starter"
+      }
+     ],
+     "home": [
+      {
+       "name": "Caleb Douglas",
+       "pos": "WR",
+       "status": "Out",
+       "injury": "Ankle",
+       "role": "key reserve"
+      },
+      {
+       "name": "Jaylen Wright",
+       "pos": "RB",
+       "status": "Doubtful",
+       "injury": "Stinger",
+       "role": "key reserve"
+      }
+     ]
     },
     "qb_last_game": {
      "away": "Patrick Mahomes",
@@ -472,6 +765,41 @@
      "away": "Cam Ward",
      "home": "Jameis Winston"
     },
+    "qb_note": {},
+    "injuries": {
+     "away": [
+      {
+       "name": "Tyjae Spears",
+       "pos": "RB",
+       "status": "Questionable",
+       "injury": "Ankle",
+       "role": "key reserve"
+      }
+     ],
+     "home": [
+      {
+       "name": "Brian Burns",
+       "pos": "LB",
+       "status": "Questionable",
+       "injury": "Ankle",
+       "role": "starter"
+      },
+      {
+       "name": "Deonte Banks",
+       "pos": "CB",
+       "status": "Questionable",
+       "injury": "Calf",
+       "role": "starter"
+      },
+      {
+       "name": "Tyler Nubin",
+       "pos": "S",
+       "status": "Questionable",
+       "injury": "Calf",
+       "role": "starter"
+      }
+     ]
+    },
     "qb_last_game": {
      "away": "Cam Ward",
      "home": "Jaxson Dart"
@@ -522,6 +850,40 @@
      "away": "Joe Burrow",
      "home": "Aaron Rodgers"
     },
+    "qb_note": {},
+    "injuries": {
+     "away": [],
+     "home": [
+      {
+       "name": "Rico Dowdle",
+       "pos": "RB",
+       "status": "Out",
+       "injury": "Toe",
+       "role": "key reserve"
+      },
+      {
+       "name": "Jaylen Warren",
+       "pos": "RB",
+       "status": "Questionable",
+       "injury": "Shoulder",
+       "role": "starter"
+      },
+      {
+       "name": "Jamel Dean",
+       "pos": "CB",
+       "status": "Questionable",
+       "injury": "Ankle",
+       "role": "starter"
+      },
+      {
+       "name": "Joey Porter Jr.",
+       "pos": "CB",
+       "status": "Questionable",
+       "injury": "Not injury related - other",
+       "role": "starter"
+      }
+     ]
+    },
     "qb_last_game": {
      "away": "Joe Burrow",
      "home": "Aaron Rodgers"
@@ -534,7 +896,7 @@
    "home": "WAS",
    "neutral": false,
    "kickoff_utc": "2026-09-27T17:00:00Z",
-   "market": -7.5,
+   "market": -8.5,
    "final": null,
    "preds": {
     "elo": {
@@ -570,7 +932,65 @@
     },
     "starting_qb": {
      "away": "Drew Lock",
-     "home": "Jayden Daniels"
+     "home": "Marcus Mariota"
+    },
+    "qb_note": {
+     "home": "Jayden Daniels is Out; Marcus Mariota expected to start"
+    },
+    "injuries": {
+     "away": [
+      {
+       "name": "Julian Love",
+       "pos": "S",
+       "status": "Out",
+       "injury": "Calf",
+       "role": "starter"
+      },
+      {
+       "name": "Ty Okada",
+       "pos": "S",
+       "status": "Out",
+       "injury": "Hamstring",
+       "role": "starter"
+      }
+     ],
+     "home": [
+      {
+       "name": "Chig Okonkwo",
+       "pos": "TE",
+       "status": "Out",
+       "injury": "Hamstring",
+       "role": "starter"
+      },
+      {
+       "name": "Jayden Daniels",
+       "pos": "QB",
+       "status": "Out",
+       "injury": "Elbow",
+       "role": "starter"
+      },
+      {
+       "name": "Frankie Luvu",
+       "pos": "LB",
+       "status": "Out",
+       "injury": "Groin",
+       "role": "starter"
+      },
+      {
+       "name": "Nick Cross",
+       "pos": "S",
+       "status": "Out",
+       "injury": "Illness",
+       "role": "starter"
+      },
+      {
+       "name": "Sam Cosmi",
+       "pos": "G",
+       "status": "Out",
+       "injury": "Concussion",
+       "role": "starter"
+      }
+     ]
     },
     "qb_last_game": {
      "away": "Drew Lock",
@@ -622,6 +1042,48 @@
      "away": "Jacoby Brissett",
      "home": "Brock Purdy"
     },
+    "qb_note": {},
+    "injuries": {
+     "away": [
+      {
+       "name": "Max Melton",
+       "pos": "CB",
+       "status": "Questionable",
+       "injury": "Toe",
+       "role": "starter"
+      },
+      {
+       "name": "Roy Lopez",
+       "pos": "DT",
+       "status": "Questionable",
+       "injury": "Groin",
+       "role": "starter"
+      }
+     ],
+     "home": [
+      {
+       "name": "Demarcus Robinson",
+       "pos": "WR",
+       "status": "Out",
+       "injury": "Ankle",
+       "role": "key reserve"
+      },
+      {
+       "name": "Nick Bosa",
+       "pos": "DE",
+       "status": "Out",
+       "injury": "Knee",
+       "role": "starter"
+      },
+      {
+       "name": "Mike Evans",
+       "pos": "WR",
+       "status": "Questionable",
+       "injury": "Hip",
+       "role": "starter"
+      }
+     ]
+    },
     "qb_last_game": {
      "away": "Jacoby Brissett",
      "home": "Brock Purdy"
@@ -671,6 +1133,34 @@
     "starting_qb": {
      "away": "Kyler Murray",
      "home": "Baker Mayfield"
+    },
+    "qb_note": {},
+    "injuries": {
+     "away": [
+      {
+       "name": "Brett Thorson",
+       "pos": "P",
+       "status": "Out",
+       "injury": "Hamstring",
+       "role": "starter"
+      }
+     ],
+     "home": [
+      {
+       "name": "Josiah Trotter",
+       "pos": "LB",
+       "status": "Out",
+       "injury": "Shoulder",
+       "role": "starter"
+      },
+      {
+       "name": "Rueben Bain Jr.",
+       "pos": "LB",
+       "status": "Out",
+       "injury": "Groin",
+       "role": "starter"
+      }
+     ]
     },
     "qb_last_game": {
      "away": "Carson Wentz",
@@ -722,6 +1212,48 @@
      "away": "Lamar Jackson",
      "home": "Dak Prescott"
     },
+    "qb_note": {},
+    "injuries": {
+     "away": [
+      {
+       "name": "Ronnie Stanley",
+       "pos": "T",
+       "status": "Out",
+       "injury": "Toe",
+       "role": "starter"
+      },
+      {
+       "name": "Zay Flowers",
+       "pos": "WR",
+       "status": "Questionable",
+       "injury": "Hamstring",
+       "role": "starter"
+      }
+     ],
+     "home": [
+      {
+       "name": "Cobie Durant",
+       "pos": "CB",
+       "status": "Out",
+       "injury": "Hamstring",
+       "role": "starter"
+      },
+      {
+       "name": "DeMarvion Overshown",
+       "pos": "LB",
+       "status": "Out",
+       "injury": "Hamstring",
+       "role": "starter"
+      },
+      {
+       "name": "Malik Hooker",
+       "pos": "S",
+       "status": "Out",
+       "injury": "Forearm",
+       "role": "starter"
+      }
+     ]
+    },
     "qb_last_game": {
      "away": "Lamar Jackson",
      "home": "Dak Prescott"
@@ -771,6 +1303,41 @@
     "starting_qb": {
      "away": "Kirk Cousins",
      "home": "Tyler Shough"
+    },
+    "qb_note": {},
+    "injuries": {
+     "away": [
+      {
+       "name": "Treydan Stukes",
+       "pos": "S",
+       "status": "Out",
+       "injury": "Concussion",
+       "role": "starter"
+      },
+      {
+       "name": "Brock Bowers",
+       "pos": "TE",
+       "status": "Questionable",
+       "injury": "Knee",
+       "role": "starter"
+      },
+      {
+       "name": "Kwity Paye",
+       "pos": "DE",
+       "status": "Questionable",
+       "injury": "Illness",
+       "role": "starter"
+      }
+     ],
+     "home": [
+      {
+       "name": "Barion Brown",
+       "pos": "WR",
+       "status": "Out",
+       "injury": "Hamstring",
+       "role": "starter"
+      }
+     ]
     },
     "qb_last_game": {
      "away": "Kirk Cousins",
@@ -822,6 +1389,41 @@
      "away": "Matthew Stafford",
      "home": "Bo Nix"
     },
+    "qb_note": {},
+    "injuries": {
+     "away": [
+      {
+       "name": "Puka Nacua",
+       "pos": "WR",
+       "status": "Doubtful",
+       "injury": "Hip",
+       "role": "starter"
+      },
+      {
+       "name": "Kamren Kinchens",
+       "pos": "S",
+       "status": "Doubtful",
+       "injury": "Hamstring",
+       "role": "starter"
+      },
+      {
+       "name": "Colby Parkinson",
+       "pos": "TE",
+       "status": "Questionable",
+       "injury": "Knee",
+       "role": "starter"
+      }
+     ],
+     "home": [
+      {
+       "name": "Marvin Mims Jr.",
+       "pos": "WR",
+       "status": "Questionable",
+       "injury": "Foot",
+       "role": "starter"
+      }
+     ]
+    },
     "qb_last_game": {
      "away": "Matthew Stafford",
      "home": "Bo Nix"
@@ -871,6 +1473,11 @@
     "starting_qb": {
      "away": "Jalen Hurts",
      "home": "Tyson Bagent"
+    },
+    "qb_note": {},
+    "injuries": {
+     "away": [],
+     "home": []
     },
     "qb_last_game": {
      "away": "Jalen Hurts",

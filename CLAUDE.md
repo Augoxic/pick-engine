@@ -21,7 +21,7 @@ Detailed knowledge lives in `docs/pick-sheet/`. Read the file that matches the t
     pip install -r requirements.txt
     python fetch_data.py                 # NFL data (nflverse)
     python build.py                      # NFL: train, backtest, predict next week -> sheet_data.json
-    python fetch_player_data.py          # NFL rosters + injury reports
+    python fetch_player_data.py          # NFL rosters, injury reports, depth charts (used by injuries.py)
     python props_build.py                # NFL anytime TD -> props_data.json
     cd epl && python epl_build.py && cd ..   # EPL -> epl/epl_data.json
     python nudge.py all                  # Claude nudges (needs ANTHROPIC_API_KEY)
@@ -30,6 +30,7 @@ Detailed knowledge lives in `docs/pick-sheet/`. Read the file that matches the t
 ## Rules
 - API key: read `ANTHROPIC_API_KEY` from the environment or a `.env` file. Never hardcode it, print it, or commit it.
   Keep `.env` in `.gitignore`.
+- Injury reports and expected starters come from `injuries.py`; refresh them close to kickoff, since statuses change late in the week.
 - Nudge models never receive betting lines or odds. Keep market data out of every prompt payload.
 - A saved nudge is never overwritten, and games that have kicked off are skipped. Do not add a "force" option.
 - Train only on seasons before the test season. Report backtests honestly, including when the market wins.

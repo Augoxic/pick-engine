@@ -31,3 +31,22 @@ Also: build each sport inside try/catch so one broken tab shows a message instea
 Playwright: load the page inside `<iframe sandbox="allow-scripts" srcdoc=...>` and again with an injected
 `<script>const claude = {use: async () => null};</script>` in the head. Expect all tabs, all games, no page errors.
 Check a 390px-wide mobile view too.
+
+## Injury report (NFL cards)
+Each game card lists starters and key players who are Out or Doubtful (red) or Questionable (grey), and a red note
+when a listed starting QB is ruled out ("Jayden Daniels is Out; Marcus Mariota expected to start"). Built by
+`injuries.py` from nflverse injury reports plus the latest depth chart. The model panel warns when a slate's nudges
+were made with a prompt older than v6, since those models did not see the injury report.
+
+## My Bets tab
+Private bet log per signed-in viewer, stored with the artifact `db` capability:
+- Bets: collection `data/users/<viewer id>`, one document per bet (`bet_...`), plus a `settings` document.
+- Leaderboard: collection `leaderboard`, one summary document per viewer who opts in (totals only, never bets).
+- Declared capabilities: `db` with rules `{path: "leaderboard", read: "view", write: "admin"}` and
+  `{path: "leaderboard/{self}", write: "interact"}`, plus `user` with scopes `["profile"]` for names.
+- Linking a bet to a sheet game fills in the model's chance (moneyline, spread, EPL result, anytime TD) and lets the
+  page suggest the result from the final score. Open bets are sorted by kickoff with a "starts in" countdown.
+- Import: paste CSV lines `date, sport, bet, type, odds, stake, result`.
+- Pages that declare `db` cannot be shared by public link; friends need to be in the owner's Claude organization and
+  have Contributor access to save bets or join the leaderboard.
+- FanDuel has no public API for account history, so nothing syncs automatically.

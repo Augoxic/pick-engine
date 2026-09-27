@@ -1,4 +1,4 @@
-"""Download nflverse weekly rosters and injury reports used by the anytime-TD model."""
+"""Download nflverse weekly rosters, injury reports and depth charts (TD model, injury reports, expected starters)."""
 import sys, urllib.request
 from pathlib import Path
 DATA = Path(__file__).parent / "data"; DATA.mkdir(exist_ok=True)
@@ -12,3 +12,7 @@ if __name__ == "__main__":
             if y == current or not f.exists():
                 url = f"https://github.com/nflverse/nflverse-data/releases/download/{kind}/{name}_{y}.parquet"
                 print("downloading", f.name); urllib.request.urlretrieve(url, f)
+    # depth charts: only the current season is needed (expected starters)
+    f = DATA / f"depth_charts_{current}.parquet"
+    print("downloading", f.name)
+    urllib.request.urlretrieve(f"https://github.com/nflverse/nflverse-data/releases/download/depth_charts/depth_charts_{current}.parquet", f)

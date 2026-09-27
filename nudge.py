@@ -13,12 +13,12 @@ from pathlib import Path
 ROOT = Path(__file__).parent
 API = "https://api.anthropic.com/v1/messages"
 
-# key, model id, prompt version, extra request settings
+# key, model id, prompt version ("current" = the sport's newest prompt), extra request settings
 SETUPS = [
     ("haiku_v4", "claude-haiku-4-5-20251001", "v4", {"temperature": 0}),   # no thinking
-    ("haiku",    "claude-haiku-4-5-20251001", "v5", {"temperature": 0}),   # no thinking
-    ("sonnet",   "claude-sonnet-5",           "v5", {}),                   # adaptive thinking on by default, effort high
-    ("opus",     "claude-opus-5-5",           "v5", {}),                   # adaptive thinking always on, effort medium
+    ("haiku",    "claude-haiku-4-5-20251001", "current", {"temperature": 0}),   # no thinking
+    ("sonnet",   "claude-sonnet-5",           "current", {}),                   # adaptive thinking on by default, effort high
+    ("opus",     "claude-opus-5-5",           "current", {}),                   # adaptive thinking always on, effort medium
 ]
 
 NFL_TEAMS = {"ARI":"Cardinals","ATL":"Falcons","BAL":"Ravens","BUF":"Bills","CAR":"Panthers","CHI":"Bears","CIN":"Bengals","CLE":"Browns",
@@ -50,7 +50,19 @@ For each game, nudge the model's margin by between -7 and +7 points ONLY for thi
 Games (JSON): {games}
 
 """ + REPLY,
+            "v6": """You review NFL game predictions. A statistical model predicts each game's margin from the home team's view (positive = home wins by that many). It already accounts for: Elo team strength, offensive and defensive efficiency (EPA per play), success rate, special teams, penalties, days of rest, and home field. It does NOT know about injuries or who is starting. You are not shown betting lines and must not guess them.
+
+For each game, nudge the model's margin by between -7 and +7 points ONLY for things the model cannot see in the facts provided:
+- Starting quarterback changes: compare starting_qb with qb_last_game, and read qb_note (a listed starter ruled out by the injury report). A backup replacing an established starter is usually worth several points; a starter returning or an equal swap is worth little.
+- Injuries: facts.injuries lists starters and key players who are Out, Doubtful or Questionable. Out and Doubtful players will almost certainly miss the game; Questionable players usually play, so give them little or no weight. Apart from quarterback, a single injured player is rarely worth more than 1 to 2 points (a top receiver, a starting left tackle, an elite pass rusher). Several starters out on the same unit can add up.
+- Extreme wind or cold.
+Do not re-count rest, home field or anything in the breakdown. Most games should get a small nudge or 0. Luck and small samples are not reasons to nudge.
+
+Games (JSON): {games}
+
+""" + REPLY,
         },
+        "current": "v6",
     },
     "epl": {
         "data": ROOT / "epl" / "epl_data.json", "clamp": 1,
@@ -73,6 +85,7 @@ Matches (JSON): {games}
 
 """ + REPLY,
         },
+        "current": "v5",
     },
 }
 
@@ -107,6 +120,7 @@ def run(sport, key):
         todo = [g for g in data["games"] if g["id"] not in mine and dt.datetime.fromisoformat(g["kickoff_utc"].replace("Z", "+00:00")) > now]
         if not todo:
             print(f"{sport} {k}: nothing to do"); continue
+        if version == "current": version = cfg["current"]
         prompt = cfg["prompts"][version].replace("{games}", json.dumps([cfg["payload"](g) for g in todo]))
         print(f"{sport} {k}: asking {model} (prompt {version}) about {len(todo)} games…")
         added = 0

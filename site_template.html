@@ -148,6 +148,33 @@ summary{cursor:pointer;font-weight:600;font-size:15px}
 select{font:600 15px var(--body);color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);border-radius:8px;padding:8px 10px;max-width:100%}
 table.props td.best{font-weight:700}
 .pos{font-size:12px;font-weight:600;color:var(--soft)}
+.inj{margin-top:12px;display:grid;gap:4px}
+.inj .lab{font-size:14px;color:var(--soft)}
+.injrow{margin:0;display:flex;flex-wrap:wrap;gap:5px;align-items:center;font-size:13px}
+.injrow b{font:600 15px var(--display);margin-right:2px}
+.chip{border-radius:4px;padding:1px 7px;font-weight:600;border:1.5px solid currentColor}
+.chip.out{color:var(--bad)}.chip.q{color:var(--soft)}
+.qbnote{margin:2px 0 0;font-size:14px;font-weight:600;color:var(--bad)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:22px 0}
+.stat{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.stat .lab{font-size:13px;color:var(--soft)}
+.stat b{font:700 28px/1.1 var(--display)}
+.h2{font:700 24px/1.1 var(--display);margin:26px 0 8px}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px 14px}
+.fld{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--soft)}
+.fld input,.ta{font:500 15px var(--body);color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+.fld input:focus,.ta:focus,select:focus{outline:3px solid var(--pylon);outline-offset:1px}
+.ta{margin:8px 0}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.mini{background:transparent;border:1.5px solid var(--ink);color:var(--ink);border-radius:6px;padding:3px 9px;font-size:13px}
+.mini.sug{background:var(--ink);color:var(--bg)}
+.mini.ghost{border-color:transparent;color:var(--soft);text-decoration:underline}
+table.bets td{vertical-align:top}
+table.bets td.acts{min-width:210px}
+table.bets tr.soon td:first-child{box-shadow:inset 4px 0 0 var(--pylon)}
+.closein{font:500 14px var(--body);color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:6px;padding:4px 8px;width:100%;max-width:210px;margin:6px 0}
+.check{display:flex;gap:8px;align-items:flex-start;font-size:15px;margin:4px 0 10px}
+.check input{margin-top:4px}
 [hidden]{display:none!important}
 @media (max-width:560px){.ptab{font-size:14px}.ptab th,.ptab td{padding:6px 5px}.field .ez{font-size:11px;letter-spacing:0}.teams{font-size:25px}.bar{grid-template-columns:90px 1fr 46px}.pitch .seg small{display:none}.tab{font-size:17px;padding:14px 10px 11px}}
 </style>
@@ -168,6 +195,7 @@ const EPL = __EPL__;
 const SPORTS = [
   {key:"nfl", label:"NFL", data:NFL},
   {key:"epl", label:"Premier League", data:EPL},
+  {key:"bets", label:"My Bets"},
   {key:"laliga", label:"La Liga"}, {key:"seriea", label:"Serie A"}, {key:"bundesliga", label:"Bundesliga"},
   {key:"ligue1", label:"Ligue 1"}, {key:"ucl", label:"Champions League"}, {key:"ligamx", label:"Liga MX"},
   {key:"unl", label:"Nations League"}, {key:"ufc", label:"UFC"},
@@ -208,7 +236,9 @@ function modelPanel(S, unit, blurb) {
     body.append(tr);
   }
   t.append(body); tb.append(t); box.append(tb);
-  box.append(el("p", "note", "Haiku 4.5: temperature 0, no thinking. Sonnet 5: adaptive thinking, default effort (high). Opus 5.5: adaptive thinking, default effort (medium). Prompt v4 is the original, looser prompt; v5 tells the models to leave most games alone. Nudges are saved before kickoff and never overwritten."));
+  box.append(el("p", "note", "Haiku 4.5: temperature 0, no thinking. Sonnet 5: adaptive thinking, default effort (high). Opus 5.5: adaptive thinking, default effort (medium). Prompt v4 is the original, looser prompt; v5 tells the models to leave most games alone; v6 (NFL) also gives them each team's injury report and expected starting QB. Nudges are saved before kickoff and never overwritten."));
+  const used = new Set(TIERS.flatMap(([k]) => Object.values(S.nudges[k]).map(n => n.prompt)).filter(Boolean));
+  if (S.key === "nfl" && used.size && !used.has("v6")) box.append(el("p", "note warn", "This slate's nudges were saved before injury reports were added, so the Claude models did not see them (for example, a starting QB ruled out). The injury report on each game below is current; the nudges will include it from the next slate."));
   return box;
 }
 
@@ -252,7 +282,7 @@ const nflSport = {key:"nfl", data:NFL, nudges:nudgesFrom(NFL), filter:"all"};
     if (g.final) tags.append(el("span", "tag final", "Final: " + NAME(g.away) + " " + g.final[0] + ", " + NAME(g.home) + " " + g.final[1]));
     if (F.doubt(g)) tags.append(el("span", "tag doubt", "Winner in doubt"));
     if (F.vs(g)) tags.append(el("span", "tag vs", "Model vs Vegas"));
-    for (const s of qbChange(g)) tags.append(el("span", "tag qb", "New QB: " + NAME(g[s])));
+    for (const s of qbChange(g)) tags.append(el("span", "tag qb", NAME(g[s]) + " QB: " + g.facts.starting_qb[s]));
     if (g.neutral) tags.append(el("span", "tag", "Neutral site"));
     top.append(teams, tags); a.append(top, field(g));
     const nums = el("div", "nums");
@@ -260,6 +290,22 @@ const nflSport = {key:"nfl", data:NFL, nudges:nudgesFrom(NFL), filter:"all"};
     if (TIERS.some(([t]) => S.nudges[t][g.id])) for (const [t, label] of TIERS) { const m = nudged(g, t); nums.append(num(g, label, m, m === null ? undefined : phi(m / D.sigma))); }
     const mk = el("div", "mkt"); mk.append(el("span", "lab", "Vegas spread"), el("b", null, g.market === null ? "no line" : g.market === 0 ? "Pick'em" : NAME(winner(g, g.market)) + " by " + Math.abs(g.market))); nums.append(mk);
     a.append(nums);
+    const inj = g.facts.injuries;
+    if (inj && (inj.away.length || inj.home.length)) {
+      const box = el("div", "inj"); box.append(el("span", "lab", "Injury report"));
+      for (const side of ["away", "home"]) {
+        if (!inj[side].length) continue;
+        const row = el("p", "injrow"); row.append(el("b", null, NAME(g[side]) + " "));
+        for (const x of inj[side]) {
+          const c = el("span", "chip " + (x.status === "Questionable" ? "q" : "out"), x.name + " " + x.pos + " · " + x.status);
+          c.title = (x.injury || "No injury listed") + (x.role === "starter" ? ", starter" : "");
+          row.append(c);
+        }
+        box.append(row);
+      }
+      for (const side of ["away", "home"]) if (g.facts.qb_note && g.facts.qb_note[side]) box.append(el("p", "qbnote", g.facts.qb_note[side] + "."));
+      a.append(box);
+    }
     const det = el("details"); det.append(el("summary", null, "Why combined says " + NAME(winner(g, g.preds.comb.margin)) + " by " + Math.abs(g.preds.comb.margin).toFixed(1)));
     const bars = el("div", "bars"), pickHome = g.preds.comb.margin >= 0;
     for (const [k, v] of Object.entries(g.breakdown)) {
@@ -431,8 +477,277 @@ const eplSport = {key:"epl", data:EPL, nudges:nudgesFrom(EPL), filter:"all"};
 }
 
 
+// ======================= My Bets =======================
+const betsTab = {key:"bets"};
+{
+  const S = betsTab;
+  const st = {db:null, user:null, uid:null, bets:[], settings:{share:false}, ready:false, canWrite:true, msg:""};
+  const money = n => (n < 0 ? "−$" : "$") + Math.abs(n).toFixed(2);
+  const dec = o => o > 0 ? 1 + o / 100 : 1 + 100 / Math.abs(o);
+  const implied = o => o > 0 ? 100 / (o + 100) : Math.abs(o) / (Math.abs(o) + 100);
+  const phiB = x => { const t = 1/(1+0.3275911*Math.abs(x)/Math.SQRT2), y = 1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x/2); return 0.5*(1+Math.sign(x)*y); };
+  const profitOf = b => b.status === "won" ? b.stake * (dec(b.odds) - 1) : b.status === "lost" ? -b.stake : 0;
+  const nflName = t => NFL_TEAMS[t] || t;
+  // games the sheet knows about, for linking a bet to the model
+  const sheetGames = () => [
+    ...NFL.games.map(g => ({sport:"NFL", id:g.id, label:nflName(g.away) + " at " + nflName(g.home), home:nflName(g.home), away:nflName(g.away), kickoff:g.kickoff_utc, g})),
+    ...EPL.games.map(g => ({sport:"EPL", id:g.id, label:g.home + " v " + g.away, home:g.home, away:g.away, kickoff:g.kickoff_utc, g})),
+  ];
+  const findGame = id => sheetGames().find(x => x.id === id);
+  function nflMargin(g) {           // combined margin plus the average of the current-prompt Claude nudges
+    const ns = ["haiku", "sonnet", "opus"].map(k => NFL.nudges && NFL.nudges[k] && NFL.nudges[k][g.id]).filter(Boolean).map(n => n.nudge);
+    return g.preds.comb.margin + (ns.length ? ns.reduce((a, b) => a + b, 0) / ns.length : 0);
+  }
+  function modelChance(b) {
+    const x = b.game_id && findGame(b.game_id); if (!x) return null;
+    if (b.type === "anytime_td") { const p = NFL.props && NFL.props.players.find(p => p.game_id === b.game_id && p.name === b.player); return p ? p.p : null; }
+    if (x.sport === "NFL" && (b.side === "home" || b.side === "away")) {
+      const m = nflMargin(x.g) * (b.side === "home" ? 1 : -1);
+      if (b.type === "moneyline") return phiB(m / NFL.sigma);
+      if (b.type === "spread" && typeof b.line === "number") return phiB((m + b.line) / NFL.sigma);
+    }
+    if (x.sport === "EPL" && b.type === "moneyline") return x.g.probs.comb[{home:0, draw:1, away:2}[b.side]] ?? null;
+    return null;
+  }
+  function suggestResult(b) {        // grade from the sheet's final score when possible
+    const x = b.game_id && findGame(b.game_id); if (!x || !x.g.final) return null;
+    const f = x.g.final;
+    if (x.sport === "NFL") {
+      const m = (f[1] - f[0]) * (b.side === "home" ? 1 : b.side === "away" ? -1 : NaN);
+      if (Number.isNaN(m)) return null;
+      if (b.type === "moneyline") return m > 0 ? "won" : m < 0 ? "lost" : "push";
+      if (b.type === "spread" && typeof b.line === "number") { const c = m + b.line; return c > 0 ? "won" : c < 0 ? "lost" : "push"; }
+    }
+    if (x.sport === "EPL" && b.type === "moneyline") { const r = f[0] > f[1] ? "home" : f[0] < f[1] ? "away" : "draw"; return r === b.side ? "won" : "lost"; }
+    return null;
+  }
+  function summary(list) {
+    const done = list.filter(b => ["won", "lost", "push", "void"].includes(b.status));
+    const w = done.filter(b => b.status === "won").length, l = done.filter(b => b.status === "lost").length, p = done.filter(b => b.status === "push").length;
+    const staked = done.filter(b => b.status !== "void").reduce((a, b) => a + b.stake, 0), profit = done.reduce((a, b) => a + profitOf(b), 0);
+    const clv = done.filter(b => typeof b.close_odds === "number").map(b => implied(b.close_odds) - implied(b.odds));
+    const edges = list.filter(b => typeof b.model_p === "number").map(b => b.model_p - implied(b.odds));
+    return {w, l, p, n: done.length, open: list.filter(b => b.status === "open").length, staked, profit, roi: staked ? profit / staked : null,
+      clvBeat: clv.length ? clv.filter(v => v > 0).length / clv.length : null, clvN: clv.length, edge: edges.length ? edges.reduce((a, b) => a + b, 0) / edges.length : null, edgeN: edges.length};
+  }
+  const betsCol = () => st.db.collection("data/users/" + st.uid);
+  async function save(b) {
+    try { const ref = b._id ? betsCol().doc(b._id) : betsCol().doc("bet_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6));
+      const body = {...b}; delete body._id; await ref.set(body); return true; }
+    catch (e) { flash(e.code === "quota_exceeded" ? "Storage is full. Delete some old bets and try again." : e.code === "invalid_argument" ? "This view can't save bets. Ask the owner for Contributor access." : "Couldn't save: " + (e.message || e.code)); return false; }
+  }
+  async function pushLeaderboard() {
+    if (!st.db || !st.uid) return;
+    try {
+      const ref = st.db.doc("leaderboard/" + st.uid);
+      if (!st.settings.share) { await ref.delete(); return; }
+      const s = summary(st.bets);
+      await ref.set({w: s.w, l: s.l, p: s.p, staked: Math.round(s.staked * 100) / 100, profit: Math.round(s.profit * 100) / 100, roi: s.roi, updated: new Date().toISOString()});
+    } catch (e) { /* leaderboard is optional */ }
+  }
+  let root, flashEl;
+  function flash(t) { if (flashEl) flashEl.textContent = t; }
+
+  S.build = panel => {
+    root = panel;
+    const h = el("header", "sport");
+    h.append(section("h1", null, "My Bets<small>Your record, what's kicking off next, and how your bets line up with the model</small>"),
+      el("p", "lede", "Log each bet once. Link it to a game on the sheet and the page fills in the model's chance, reminds you when it kicks off, and suggests the result after the final. Your bets are private to you; you choose whether your totals show on the friends leaderboard."));
+    panel.append(h, el("div", null)); S.body = panel.lastChild;
+  };
+  function input(label, node) { const w = el("label", "fld"); w.append(el("span", null, label), node); return w; }
+  function sel(options, value) { const s = document.createElement("select"); for (const [v, t] of options) s.append(new Option(t, v)); if (value !== undefined) s.value = value; return s; }
+  function num(ph) { const i = document.createElement("input"); i.type = "number"; i.step = "any"; i.placeholder = ph; return i; }
+  function txt(ph) { const i = document.createElement("input"); i.type = "text"; i.placeholder = ph; return i; }
+
+  function formBox() {
+    const box = el("section", "bt"); box.append(el("h2", null, "Add a bet"));
+    const games = sheetGames().filter(x => !x.g.final);
+    const game = sel([["", "Not on the sheet"], ...games.map(x => [x.id, x.sport + ": " + x.label])]);
+    const type = sel([["moneyline", "Moneyline"], ["spread", "Spread"], ["anytime_td", "Anytime TD"], ["total", "Total"], ["parlay", "Parlay"], ["other", "Other"]]);
+    const side = sel([["", "Pick a side"]]); const player = sel([["", "Pick a player"]]);
+    const line = num("e.g. -1.5"), odds = num("e.g. -124"), stake = num("e.g. 20"), pick = txt("e.g. Vikings -1.5");
+    const book = txt("FanDuel"); book.value = "FanDuel";
+    const est = el("p", "note");
+    const fSide = input("Side", side), fLine = input("Line for that side", line), fPlayer = input("Player", player);
+    function fillLists() {
+      const x = findGame(game.value);
+      side.replaceChildren(new Option("Pick a side", ""));
+      if (x) { side.append(new Option(x.away, "away")); if (x.sport === "EPL") side.append(new Option("Draw", "draw")); side.append(new Option(x.home, "home")); }
+      player.replaceChildren(new Option("Pick a player", ""));
+      if (x && x.sport === "NFL" && NFL.props) for (const p of NFL.props.players.filter(p => p.game_id === x.id)) player.append(new Option(p.name + " (" + Math.round(p.p * 100) + "%)", p.name));
+      refresh();
+    }
+    function refresh() {
+      const x = findGame(game.value);
+      fSide.hidden = !x || type.value === "anytime_td" || !["moneyline", "spread"].includes(type.value);
+      fLine.hidden = type.value !== "spread" && type.value !== "total";
+      fPlayer.hidden = !(x && x.sport === "NFL" && type.value === "anytime_td");
+      estimate();
+    }
+    function draft() {
+      const x = findGame(game.value);
+      const b = {created: new Date().toISOString(), sport: x ? x.sport : "Other", game_id: x ? x.id : null, game_label: x ? x.label : null,
+        kickoff_utc: x ? x.kickoff : null, type: type.value, side: side.value || null, player: player.value || null,
+        line: line.value === "" ? null : Number(line.value), odds: Number(odds.value), stake: Number(stake.value), book: book.value.trim() || "FanDuel",
+        status: "open", close_odds: null};
+      b.pick = pick.value.trim() || [b.player ? b.player + " anytime TD" : null, b.side && x ? (b.side === "draw" ? "Draw" : x[b.side]) : null, b.type === "spread" && b.line !== null ? (b.line > 0 ? "+" : "") + b.line : null, b.type === "moneyline" ? "ML" : null].filter(Boolean).join(" ");
+      b.model_p = modelChance(b);
+      return b;
+    }
+    function estimate() {
+      const b = draft();
+      if (!odds.value || !(Math.abs(b.odds) >= 100)) { est.textContent = "American odds, like -124 or +150."; return; }
+      const imp = implied(b.odds);
+      est.textContent = "The price implies " + Math.round(imp * 100) + "%." + (typeof b.model_p === "number" ? " The model gives " + Math.round(b.model_p * 100) + "%, " + (b.model_p > imp ? "so it sees value." : "so it sees no value at this price.") : "");
+    }
+    game.onchange = fillLists;
+    for (const n of [type, side, player]) n.onchange = refresh;
+    for (const n of [line, odds]) n.oninput = estimate;
+    const grid = el("div", "form");
+    grid.append(input("Game", game), input("Bet type", type), fSide, fPlayer, fLine, input("Odds", odds), input("Stake ($)", stake), input("Book", book), input("Description (optional)", pick));
+    const add = el("button", "btn", "Save bet");
+    add.onclick = async () => {
+      const b = draft();
+      if (!(Math.abs(b.odds) >= 100) || !(b.stake > 0)) { flash("Enter American odds (like -124) and a stake."); return; }
+      if (!b.pick) { flash("Add a short description of the bet."); return; }
+      add.disabled = true; if (await save(b)) { flash("Saved: " + b.pick + "."); odds.value = stake.value = pick.value = line.value = ""; estimate(); } add.disabled = false;
+    };
+    flashEl = el("p", "status");
+    const row = el("div", "row"); row.append(add, flashEl);
+    box.append(grid, est, row); fillLists();
+    return box;
+  }
+
+  function when(iso) {
+    if (!iso) return "No kickoff time";
+    const t = Date.parse(iso), mins = Math.round((t - Date.now()) / 60000);
+    const at = new Date(iso).toLocaleString("en-US", {weekday:"short", hour:"numeric", minute:"2-digit", timeZone:"America/New_York"}) + " ET";
+    if (mins > 0) return at + (mins < 180 ? " · starts in " + (mins < 60 ? mins + " min" : Math.round(mins / 6) / 10 + " h") : "");
+    return at + " · started";
+  }
+  function betRow(b, open) {
+    const tr = el("tr", open && b.kickoff_utc && Date.parse(b.kickoff_utc) - Date.now() < 3 * 3600e3 && Date.parse(b.kickoff_utc) > Date.now() ? "soon" : "");
+    const d = el("td"); d.append(el("b", null, b.pick)); if (b.game_label) d.append(el("div", "note", b.game_label));
+    tr.append(d);
+    tr.append(el("td", null, (b.odds > 0 ? "+" : "") + b.odds), el("td", null, money(b.stake)), el("td", null, typeof b.model_p === "number" ? Math.round(b.model_p * 100) + "% vs " + Math.round(implied(b.odds) * 100) + "%" : "–"));
+    const act = el("td", "acts");
+    if (open) {
+      act.append(el("div", "note", when(b.kickoff_utc)));
+      const sug = suggestResult(b);
+      const close = num("Closing odds (optional)"); close.className = "closein"; close.setAttribute("aria-label", "Closing odds, optional");
+      const btns = el("div", "row");
+      for (const r of ["won", "lost", "push", "void"]) {
+        const x = el("button", "mini" + (sug === r ? " sug" : ""), r === sug ? "Final says " + r : r[0].toUpperCase() + r.slice(1));
+        x.onclick = async () => { const c = Math.abs(Number(close.value)) >= 100 ? Number(close.value) : null; await save({...b, status: r, close_odds: c, settled_at: new Date().toISOString()}); };
+        btns.append(x);
+      }
+      act.append(close, btns);
+    } else {
+      const p = profitOf(b); act.append(el("b", p > 0 ? "right" : p < 0 ? "wrong" : "", b.status[0].toUpperCase() + b.status.slice(1) + " " + money(p)));
+      if (typeof b.close_odds === "number") act.append(el("div", "note", "Closed " + (b.close_odds > 0 ? "+" : "") + b.close_odds + (implied(b.close_odds) > implied(b.odds) ? ", you beat it" : "")));
+    }
+    const del = el("button", "mini ghost", "Delete");
+    del.onclick = async () => {
+      if (!del.dataset.armed) { del.dataset.armed = "1"; del.textContent = "Tap again to delete"; setTimeout(() => { delete del.dataset.armed; del.textContent = "Delete"; }, 4000); return; }
+      try { await betsCol().doc(b._id).delete(); } catch (e) { flash("Couldn't delete: " + (e.message || e.code)); }
+    };
+    act.append(del); tr.append(act);
+    return tr;
+  }
+  function table(rows, open) {
+    const w = el("div", "tbl"), t = el("table", "bets");
+    t.innerHTML = "<thead><tr><th>Bet</th><th>Odds</th><th>Stake</th><th>Model vs price</th><th>" + (open ? "Kickoff" : "Result") + "</th></tr></thead>";
+    const body = el("tbody"); rows.forEach(b => body.append(betRow(b, open))); t.append(body); w.append(t); return w;
+  }
+  function importBox() {
+    const d = el("details"); d.append(el("summary", null, "Import bets from a spreadsheet"));
+    d.append(el("p", "note", "Paste one bet per line: date, sport, bet, type, odds, stake, result. Type is moneyline, spread, total, parlay or other; result is open, won, lost, push or void. A header row is skipped. Example: 2026-09-20, NFL, Bills ML, moneyline, -250, 25, won"));
+    const ta = document.createElement("textarea"); ta.rows = 5; ta.className = "ta"; const go = el("button", "btn", "Import"); const note = el("span", "status");
+    go.onclick = async () => {
+      const lines = ta.value.split(/\r?\n/).map(l => l.trim()).filter(Boolean).slice(0, 200); let n = 0, bad = 0;
+      go.disabled = true;
+      for (const [i, l] of lines.entries()) {
+        const c = l.split(",").map(x => x.trim());
+        if (i === 0 && isNaN(Number(c[4]))) continue;          // header row
+        if (c.length < 7 || isNaN(Number(c[4])) || isNaN(Number(c[5]))) { bad++; continue; }
+        const status = ["open", "won", "lost", "push", "void"].includes(c[6].toLowerCase()) ? c[6].toLowerCase() : "open";
+        const ok = await save({created: new Date(c[0]).toString() === "Invalid Date" ? new Date().toISOString() : new Date(c[0]).toISOString(), sport: c[1] || "Other", game_id: null, game_label: null, kickoff_utc: null,
+          type: c[3].toLowerCase() || "other", side: null, player: null, line: null, odds: Number(c[4]), stake: Number(c[5]), book: c[7] || "FanDuel", pick: c[2], status, close_odds: null, model_p: null});
+        if (ok) n++; else break;
+      }
+      note.textContent = "Imported " + n + " bet" + (n === 1 ? "" : "s") + (bad ? ", skipped " + bad + " line" + (bad === 1 ? "" : "s") + " that didn't match" : "") + ".";
+      go.disabled = false; if (n) ta.value = "";
+    };
+    const r = el("div", "row"); r.append(go, note); d.append(ta, r);
+    return d;
+  }
+  function leaderboardBox() {
+    const box = el("section", "bt"); box.append(el("h2", null, "Friends leaderboard"));
+    const lab = el("label", "check"), cb = document.createElement("input"); cb.type = "checkbox"; cb.checked = !!st.settings.share;
+    lab.append(cb, " Show my totals (record, profit, return) to everyone who can open this page. Individual bets stay private.");
+    cb.onchange = async () => { st.settings.share = cb.checked; try { await betsCol().doc("settings").set({share: cb.checked}); } catch (e) {} await pushLeaderboard(); refreshBoard(); };
+    parts.boardHolder = el("div");
+    box.append(lab, parts.boardHolder);
+    return box;
+  }
+  async function refreshBoard() {
+    const holder = parts.boardHolder; if (!holder) return;
+    try {
+      const snap = await st.db.collection("leaderboard").get();
+      const rows = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a, b) => (b.profit || 0) - (a.profit || 0));
+      if (!rows.length) { holder.replaceChildren(el("p", "note", "No one has shared yet. Friends need Contributor access to this page to take part.")); return; }
+      const names = st.user && st.user.profiles ? await st.user.profiles(rows.map(r => r.id)) : {};
+      const t = el("table"); t.innerHTML = "<thead><tr><th>Name</th><th>Record</th><th>Profit</th><th>Return</th></tr></thead>"; const body = el("tbody");
+      for (const r of rows) { const tr = el("tr", r.id === st.uid ? "hl" : ""); tr.append(el("td", null, (names[r.id] && names[r.id].name) || (r.id === st.uid ? "You" : "Someone")), el("td", null, r.w + "–" + r.l + (r.p ? "–" + r.p : "")), el("td", null, money(r.profit || 0)), el("td", null, r.roi == null ? "–" : (r.roi >= 0 ? "+" : "−") + Math.abs(r.roi * 100).toFixed(1) + "%")); body.append(tr); }
+      t.append(body); const w = el("div", "tbl"); w.append(t); holder.replaceChildren(w);
+    } catch (e) { holder.replaceChildren(el("p", "note", "The leaderboard couldn't load right now.")); }
+  }
+  function statCard(label, value, sub) { const c = el("div", "stat"); c.append(el("span", "lab", label), el("b", null, value)); if (sub) c.append(el("span", "note", sub)); return c; }
+
+  const parts = {};
+  S.render = async () => {
+    if (!S.body) return;
+    const b = S.body;
+    if (!st.ready) { b.replaceChildren(el("p", "empty", st.msg || "Connecting to your saved bets…")); parts.built = false; return; }
+    if (!parts.built) {
+      parts.stats = el("div", "stats"); parts.open = el("section"); parts.done = el("section"); parts.board = leaderboardBox();
+      b.replaceChildren(parts.stats, parts.open, formBox(), parts.done, importBox(),
+        el("p", "note", "FanDuel has no public API for your account, so bets can't be pulled in automatically. Tracking apps like Pikkit sync FanDuel for you; to use this page, log bets here or paste them in with the importer."), parts.board);
+      parts.built = true;
+    }
+    const s = summary(st.bets);
+    const stats = parts.stats; stats.replaceChildren();
+    stats.append(statCard("Record", s.w + "–" + s.l + (s.p ? "–" + s.p : ""), s.open + " open"),
+      statCard("Profit", money(s.profit), "on " + money(s.staked) + " staked"),
+      statCard("Return", s.roi == null ? "–" : (s.roi >= 0 ? "+" : "−") + Math.abs(s.roi * 100).toFixed(1) + "%"),
+      statCard("Beat the close", s.clvBeat == null ? "–" : Math.round(s.clvBeat * 100) + "%", s.clvN ? "of " + s.clvN + " bets with a closing price" : "add closing odds when you settle"),
+      statCard("Model edge", s.edge == null ? "–" : (s.edge >= 0 ? "+" : "−") + Math.abs(s.edge * 100).toFixed(1) + " pts", s.edgeN ? "average over " + s.edgeN + " linked bets" : "link bets to sheet games"));
+    const open = st.bets.filter(x => x.status === "open").sort((x, y) => (Date.parse(x.kickoff_utc) || 9e15) - (Date.parse(y.kickoff_utc) || 9e15));
+    parts.open.replaceChildren(el("h2", "h2", "Open bets and what's kicking off next"), open.length ? table(open, true) : el("p", "empty", "No open bets."));
+    const done = st.bets.filter(x => x.status !== "open").sort((x, y) => Date.parse(y.settled_at || y.created) - Date.parse(x.settled_at || x.created));
+    parts.done.replaceChildren(el("h2", "h2", "Settled"), done.length ? table(done, false) : el("p", "empty", "Nothing settled yet."));
+    refreshBoard();
+  };
+  setInterval(() => { if (parts.built && !document.getElementById("panel-bets").hidden) S.render(); }, 60000);   // keep "starts in" times fresh
+
+  S.connect = async () => {
+    if (!(window.claude && window.claude.use)) { st.msg = "Your bets are saved when this page is opened in claude.ai while signed in."; S.render(); return; }
+    const [db, user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
+    st.db = db; st.user = user;
+    st.uid = user ? await user.id() : null;
+    if (!db || !st.uid) { st.msg = "Saving bets isn't available in this view. Open the page in claude.ai while signed in."; S.render(); return; }
+    try { const sd = await betsCol().doc("settings").get(); if (sd.exists) st.settings = {...st.settings, ...sd.data()}; } catch (e) {}
+    betsCol().onSnapshot(snap => {
+      st.bets = snap.docs.filter(d => d.id.startsWith("bet_")).map(d => ({_id: d.id, ...d.data()}));
+      st.ready = true; S.render();
+      const sig = JSON.stringify(summary(st.bets)); if (st.settings.share && sig !== st.lastSig) { st.lastSig = sig; pushLeaderboard().then(refreshBoard); }
+    }, e => { st.msg = e.code === "revoked" ? "Access to saved data was withdrawn. Reload to reconnect." : "Couldn't load your bets right now (" + e.code + ")."; st.ready = false; S.render(); });
+  };
+}
+
 // ======================= tabs =======================
-const BUILT = {nfl: nflSport, epl: eplSport};
+const BUILT = {nfl: nflSport, epl: eplSport, bets: betsTab};
 const tabs = document.getElementById("tabs"), panels = document.getElementById("panels");
 for (const s of SPORTS) {
   const b = el("button", "tab", s.label); b.setAttribute("role", "tab"); b.id = "tab-" + s.key;
@@ -461,6 +776,7 @@ tabs.addEventListener("keydown", e => {
 let startKey = "nfl"; try { startKey = (location.hash || "#nfl").slice(1); } catch (e) {}
 show(startKey);
 const ld = document.getElementById("loading"); if (ld) ld.remove();
+betsTab.connect();
 
 })();
 </script>

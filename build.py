@@ -2,6 +2,7 @@
 import json, datetime as dt
 import numpy as np, pandas as pd
 from engine import main, predict, phi, LABELS
+from injuries import game_reports
 
 def last_qb(g, team, season, before_week):
     prev = g[(g.season == season) & (g.week < before_week) & g.result.notna() &
@@ -23,6 +24,7 @@ def build(season=None, week=None):
         open_ = g[(g.season == season) & g.result.isna()]
         week = int(open_.week.min())
     wk = g[(g.season == season) & (g.week == week)].copy()
+    reports = game_reports(season, week, wk)
     out = []
     for _, r in wk.iterrows():
         preds = {}
@@ -37,7 +39,9 @@ def build(season=None, week=None):
             "divisional_game": bool(r.div_game),
             "roof": None if pd.isna(r.roof) else r.roof,
             "rest_days": {"away": int(r.away_rest), "home": int(r.home_rest)},
-            "starting_qb": {"away": r.away_qb_name, "home": r.home_qb_name},
+            "starting_qb": reports[r.game_id]["qb"],
+            "qb_note": {k: v for k, v in reports[r.game_id]["qb_note"].items() if v},
+            "injuries": reports[r.game_id]["injuries"],
             "qb_last_game": {"away": last_qb(g, r.away_team, season, week), "home": last_qb(g, r.home_team, season, week)},
         }
         if not pd.isna(r.temp): facts["temp_f"] = r.temp
