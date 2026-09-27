@@ -1,0 +1,290 @@
+{
+ "haiku_v4": {
+  "Arsenal|Leeds": {
+   "nudge": 0.3,
+   "reason": "Arsenal in strong form (4 wins in last 5) and significantly higher league position (2nd vs 5th). Leeds showing inconsistency with mixed recent results.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v4",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Aston Villa|Brentford": {
+   "nudge": -0.5,
+   "reason": "Aston Villa in poor form (1 win in last 5) and struggling in 16th place, while Brentford are 4th with consistent results. Home advantage partially offset by form disparity.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v4",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Chelsea|Bournemouth": {
+   "nudge": 0.4,
+   "reason": "Chelsea showing recent wins and 10th place position versus Bournemouth's poor form (1 win in last 5) and 17th place. Clear quality gap favors home side.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v4",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Ipswich|Fulham": {
+   "nudge": 0.2,
+   "reason": "Ipswich newly promoted but showing better league position (11th vs 19th) and more recent wins. Fulham in severe form crisis with only draws in last two games.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v4",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Man United|Tottenham": {
+   "nudge": 0.5,
+   "reason": "Man United significantly higher in points (5 vs 2) and league position (12th vs 20th), with Tottenham in crisis form (4 losses in last 5). Home advantage amplified by form gap.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v4",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Sunderland|Brighton": {
+   "nudge": -0.6,
+   "reason": "Brighton are 3rd with strong recent form (3 wins in last 5) while Sunderland are 14th with poor form (1 win in last 5). Away side significantly superior.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v4",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Crystal Palace|Nott'm Forest": {
+   "nudge": 0.0,
+   "reason": "Both teams in similar league positions (15th vs 13th) with comparable recent form and points. Match appears evenly balanced.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v4",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Hull|Everton": {
+   "nudge": 0.1,
+   "reason": "Hull newly promoted but showing solid recent form (2 wins in last 5) and slightly better league position. Everton marginally ahead on points but form is comparable.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v4",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Liverpool|Man City": {
+   "nudge": -0.7,
+   "reason": "Man City unbeaten with 5 consecutive wins and 6 points clear at top, while Liverpool showing inconsistency (2 draws in last 5). Away side clearly superior despite home advantage.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v4",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Coventry|Newcastle": {
+   "nudge": -0.8,
+   "reason": "Newcastle significantly superior with 5 more points, better league position (9th vs 18th), and strong recent form (3 wins in last 5). Coventry newly promoted and in poor form (1 win in last 5).",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v4",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  }
+ },
+ "haiku": {
+  "Arsenal|Leeds": {
+   "nudge": 0.0,
+   "reason": "No information beyond the model's inputs.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Aston Villa|Brentford": {
+   "nudge": 0.0,
+   "reason": "No information beyond the model's inputs.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Chelsea|Bournemouth": {
+   "nudge": 0.0,
+   "reason": "No information beyond the model's inputs.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Ipswich|Fulham": {
+   "nudge": 0.0,
+   "reason": "Ipswich newly promoted status already accounted for in model.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Man United|Tottenham": {
+   "nudge": 0.0,
+   "reason": "No information beyond the model's inputs.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Sunderland|Brighton": {
+   "nudge": 0.0,
+   "reason": "No information beyond the model's inputs.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Crystal Palace|Nott'm Forest": {
+   "nudge": 0.0,
+   "reason": "No information beyond the model's inputs.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Hull|Everton": {
+   "nudge": 0.0,
+   "reason": "Hull newly promoted status already accounted for in model.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Liverpool|Man City": {
+   "nudge": 0.0,
+   "reason": "No information beyond the model's inputs.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Coventry|Newcastle": {
+   "nudge": 0.0,
+   "reason": "Coventry newly promoted status already accounted for in model.",
+   "model": "claude-haiku-4-5-20251001",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  }
+ },
+ "sonnet": {
+  "Arsenal|Leeds": {
+   "nudge": 0.0,
+   "reason": "No information beyond league position and recent form, which the model already accounts for.",
+   "model": "claude-sonnet-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Aston Villa|Brentford": {
+   "nudge": 0.0,
+   "reason": "Villa's poor form and Brentford's good form are small-sample table effects already reflected in Elo/goals model.",
+   "model": "claude-sonnet-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Chelsea|Bournemouth": {
+   "nudge": 0.0,
+   "reason": "Only table position and recent results are given, which should not drive a nudge.",
+   "model": "claude-sonnet-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Ipswich|Fulham": {
+   "nudge": 0.0,
+   "reason": "Newly promoted status is already penalized in Elo; no other unseen facts provided.",
+   "model": "claude-sonnet-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Man United|Tottenham": {
+   "nudge": 0.0,
+   "reason": "League position and recent results are already captured by the model's Elo and form-based goals inputs.",
+   "model": "claude-sonnet-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Sunderland|Brighton": {
+   "nudge": 0.0,
+   "reason": "No facts beyond position/form, which are excluded from manual nudging.",
+   "model": "claude-sonnet-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Crystal Palace|Nott'm Forest": {
+   "nudge": 0.0,
+   "reason": "Both sides mid-table with mixed form; no additional unseen information.",
+   "model": "claude-sonnet-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Hull|Everton": {
+   "nudge": 0.0,
+   "reason": "Newly promoted status already handled by Elo penalty; no other new facts.",
+   "model": "claude-sonnet-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Liverpool|Man City": {
+   "nudge": 0.0,
+   "reason": "City's strong form and Liverpool's position are already reflected in Elo and time-weighted attack/defence ratings.",
+   "model": "claude-sonnet-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Coventry|Newcastle": {
+   "nudge": 0.0,
+   "reason": "Newly promoted penalty and form are already modeled; no further unseen information provided.",
+   "model": "claude-sonnet-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  }
+ },
+ "opus": {
+  "Arsenal|Leeds": {
+   "nudge": 0.0,
+   "reason": "Arsenal are 2nd and Leeds 5th, but form and table position are already reflected or are small samples. There is no information the model cannot see.",
+   "model": "claude-opus-5-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Aston Villa|Brentford": {
+   "nudge": 0.0,
+   "reason": "Villa (16th) and Brentford (4th) differ in early form, which is a small sample. There is no injury, suspension or other information beyond the model's inputs.",
+   "model": "claude-opus-5-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Chelsea|Bournemouth": {
+   "nudge": 0.0,
+   "reason": "Bournemouth are winless with 3 points, but that is early-season form only. The facts show nothing the model is missing.",
+   "model": "claude-opus-5-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Ipswich|Fulham": {
+   "nudge": 0.0,
+   "reason": "Ipswich's promoted status is already penalised by the model, and Fulham's poor start is a small sample. There is no additional information to act on.",
+   "model": "claude-opus-5-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Man United|Tottenham": {
+   "nudge": 0.0,
+   "reason": "Tottenham are bottom with 2 points, but that is early-season form alone. The model's club strength and goals ratings already cover the rest.",
+   "model": "claude-opus-5-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Sunderland|Brighton": {
+   "nudge": 0.0,
+   "reason": "Brighton are 3rd and Sunderland 14th, which is table position only. There are no facts beyond what the model already uses.",
+   "model": "claude-opus-5-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Crystal Palace|Nott'm Forest": {
+   "nudge": 0.0,
+   "reason": "Two closely matched sides with similar poor starts. There is nothing outside the model's inputs to justify a change.",
+   "model": "claude-opus-5-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Hull|Everton": {
+   "nudge": 0.0,
+   "reason": "Hull's promotion is already accounted for, and both sides' decent starts are small samples. There is no extra information available.",
+   "model": "claude-opus-5-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Liverpool|Man City": {
+   "nudge": 0.0,
+   "reason": "City's 5 straight wins are form, and the model already rates both clubs. There is no team news or other unseen information in the facts.",
+   "model": "claude-opus-5-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  },
+  "Coventry|Newcastle": {
+   "nudge": 0.0,
+   "reason": "Coventry's promotion and weak start are covered by the model's penalty and ratings. There is nothing further to add from the facts.",
+   "model": "claude-opus-5-5",
+   "prompt": "v5",
+   "saved_utc": "2026-09-27T04:04:59Z"
+  }
+ }
+}

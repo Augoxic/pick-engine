@@ -1,0 +1,5 @@
+pandas
+numpy
+pyarrow
+scikit-learn
+premier-league-data @ git+https://github.com/AnishKhetani/premier-league-data

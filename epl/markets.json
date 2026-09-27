@@ -1,0 +1,6 @@
+{"source": "Sportradar win probabilities, pulled Sep 26, 2026",
+ "games": {
+  "Arsenal|Leeds": [67.8, 19.3, 12.9], "Aston Villa|Brentford": [35.7, 26.8, 37.5], "Chelsea|Bournemouth": [53.4, 23.1, 23.5],
+  "Ipswich|Fulham": [34.8, 27.1, 38.1], "Sunderland|Brighton": [32.1, 27.3, 40.6], "Man United|Tottenham": [55.3, 22.9, 21.8],
+  "Crystal Palace|Nott'm Forest": [36, 29, 35], "Hull|Everton": [26.6, 28, 45.4], "Liverpool|Man City": [36.8, 25.9, 37.3],
+  "Coventry|Newcastle": [29.1, 26.5, 44.4]}}

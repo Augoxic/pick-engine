@@ -1,0 +1,665 @@
+{
+ "sport": "EPL",
+ "season": "2026-27",
+ "round": "Matchday 6",
+ "market_source": "Sportradar win probabilities, pulled Sep 26, 2026",
+ "built_utc": "2026-09-27T04:04Z",
+ "comb_model": {
+  "features": [
+   "elo_diff",
+   "xg_diff",
+   "xg_total",
+   "rest_diff"
+  ],
+  "coef": [
+   [
+    0.00205,
+    0.24667,
+    0.09408,
+    -0.00574
+   ],
+   [
+    0.00021,
+    -0.04377,
+    -0.1107,
+    0.00361
+   ],
+   [
+    -0.00227,
+    -0.2029,
+    0.01662,
+    0.00213
+   ]
+  ],
+  "intercept": [
+   -0.01488,
+   0.09683,
+   -0.08195
+  ]
+ },
+ "backtest": {
+  "season": "2025-26",
+  "train_games": 4940,
+  "test_games": 380,
+  "rows": [
+   {
+    "name": "market",
+    "acc": 0.49473684210526314,
+    "brier": 0.6077370146246498,
+    "logloss": 1.0117668726695337
+   },
+   {
+    "name": "elo",
+    "acc": 0.4710526315789474,
+    "brier": 0.6264926351941881,
+    "logloss": 1.0378879427716128,
+    "bets": 270,
+    "roi": -0.10618518518518516
+   },
+   {
+    "name": "goals",
+    "acc": 0.4710526315789474,
+    "brier": 0.6204748469668759,
+    "logloss": 1.0350232408819897,
+    "bets": 263,
+    "roi": -0.07106463878326996
+   },
+   {
+    "name": "comb",
+    "acc": 0.4763157894736842,
+    "brier": 0.6228952452196816,
+    "logloss": 1.0336158532170083,
+    "bets": 258,
+    "roi": -0.0903875968992248
+   },
+   {
+    "name": "home",
+    "acc": 0.4263157894736842,
+    "brier": null,
+    "logloss": null
+   }
+  ]
+ },
+ "games": [
+  {
+   "id": "Arsenal|Leeds",
+   "home": "Arsenal",
+   "away": "Leeds",
+   "kickoff_utc": "2026-10-10T11:30:00Z",
+   "final": null,
+   "probs": {
+    "elo": [
+     0.713,
+     0.187,
+     0.1
+    ],
+    "goals": [
+     0.536,
+     0.263,
+     0.2
+    ],
+    "comb": [
+     0.629,
+     0.238,
+     0.134
+    ]
+   },
+   "xg": [
+    1.49,
+    0.8
+   ],
+   "market": [
+    0.678,
+    0.193,
+    0.129
+   ],
+   "features": {
+    "elo_diff": 231.5,
+    "xg_diff": 0.693,
+    "xg_total": 2.284,
+    "rest_diff": 1.0
+   },
+   "facts": {
+    "league_position": {
+     "home": 2,
+     "away": 5
+    },
+    "points": {
+     "home": 12,
+     "away": 9
+    },
+    "last_results_oldest_first": {
+     "home": "WWWWL",
+     "away": "WDDWD"
+    },
+    "newly_promoted": {
+     "home": false,
+     "away": false
+    },
+    "kickoff_uk": "2026-10-10 12:30"
+   }
+  },
+  {
+   "id": "Aston Villa|Brentford",
+   "home": "Aston Villa",
+   "away": "Brentford",
+   "kickoff_utc": "2026-10-10T14:00:00Z",
+   "final": null,
+   "probs": {
+    "elo": [
+     0.432,
+     0.262,
+     0.306
+    ],
+    "goals": [
+     0.388,
+     0.246,
+     0.366
+    ],
+    "comb": [
+     0.422,
+     0.258,
+     0.32
+    ]
+   },
+   "xg": [
+    1.49,
+    1.44
+   ],
+   "market": [
+    0.357,
+    0.268,
+    0.375
+   ],
+   "features": {
+    "elo_diff": -10.3,
+    "xg_diff": 0.048,
+    "xg_total": 2.927,
+    "rest_diff": -1.0
+   },
+   "facts": {
+    "league_position": {
+     "home": 16,
+     "away": 4
+    },
+    "points": {
+     "home": 4,
+     "away": 9
+    },
+    "last_results_oldest_first": {
+     "home": "LLDLW",
+     "away": "WDDDW"
+    },
+    "newly_promoted": {
+     "home": false,
+     "away": false
+    },
+    "kickoff_uk": "2026-10-10 15:00"
+   }
+  },
+  {
+   "id": "Chelsea|Bournemouth",
+   "home": "Chelsea",
+   "away": "Bournemouth",
+   "kickoff_utc": "2026-10-10T14:00:00Z",
+   "final": null,
+   "probs": {
+    "elo": [
+     0.408,
+     0.264,
+     0.328
+    ],
+    "goals": [
+     0.436,
+     0.234,
+     0.331
+    ],
+    "comb": [
+     0.428,
+     0.25,
+     0.322
+    ]
+   },
+   "xg": [
+    1.71,
+    1.46
+   ],
+   "market": [
+    0.534,
+    0.231,
+    0.235
+   ],
+   "features": {
+    "elo_diff": -29.0,
+    "xg_diff": 0.246,
+    "xg_total": 3.172,
+    "rest_diff": 2.0
+   },
+   "facts": {
+    "league_position": {
+     "home": 10,
+     "away": 17
+    },
+    "points": {
+     "home": 7,
+     "away": 3
+    },
+    "last_results_oldest_first": {
+     "home": "WWLDL",
+     "away": "LDDDL"
+    },
+    "newly_promoted": {
+     "home": false,
+     "away": false
+    },
+    "kickoff_uk": "2026-10-10 15:00"
+   }
+  },
+  {
+   "id": "Ipswich|Fulham",
+   "home": "Ipswich",
+   "away": "Fulham",
+   "kickoff_utc": "2026-10-10T14:00:00Z",
+   "final": null,
+   "probs": {
+    "elo": [
+     0.318,
+     0.265,
+     0.416
+    ],
+    "goals": [
+     0.27,
+     0.237,
+     0.493
+    ],
+    "comb": [
+     0.301,
+     0.259,
+     0.44
+    ]
+   },
+   "xg": [
+    1.22,
+    1.73
+   ],
+   "market": [
+    0.348,
+    0.271,
+    0.381
+   ],
+   "features": {
+    "elo_diff": -101.7,
+    "xg_diff": -0.508,
+    "xg_total": 2.95,
+    "rest_diff": 1.0
+   },
+   "facts": {
+    "league_position": {
+     "home": 11,
+     "away": 19
+    },
+    "points": {
+     "home": 6,
+     "away": 2
+    },
+    "last_results_oldest_first": {
+     "home": "WLLWL",
+     "away": "LLLDD"
+    },
+    "newly_promoted": {
+     "home": true,
+     "away": false
+    },
+    "kickoff_uk": "2026-10-10 15:00"
+   }
+  },
+  {
+   "id": "Man United|Tottenham",
+   "home": "Man United",
+   "away": "Tottenham",
+   "kickoff_utc": "2026-10-10T16:30:00Z",
+   "final": null,
+   "probs": {
+    "elo": [
+     0.645,
+     0.213,
+     0.142
+    ],
+    "goals": [
+     0.595,
+     0.21,
+     0.195
+    ],
+    "comb": [
+     0.642,
+     0.209,
+     0.149
+    ]
+   },
+   "xg": [
+    2.04,
+    1.08
+   ],
+   "market": [
+    0.553,
+    0.229,
+    0.218
+   ],
+   "features": {
+    "elo_diff": 164.5,
+    "xg_diff": 0.96,
+    "xg_total": 3.129,
+    "rest_diff": -1.0
+   },
+   "facts": {
+    "league_position": {
+     "home": 12,
+     "away": 20
+    },
+    "points": {
+     "home": 5,
+     "away": 2
+    },
+    "last_results_oldest_first": {
+     "home": "LWDLD",
+     "away": "LLDDL"
+    },
+    "newly_promoted": {
+     "home": false,
+     "away": false
+    },
+    "kickoff_uk": "2026-10-10 17:30"
+   }
+  },
+  {
+   "id": "Sunderland|Brighton",
+   "home": "Sunderland",
+   "away": "Brighton",
+   "kickoff_utc": "2026-10-10T14:00:00Z",
+   "final": null,
+   "probs": {
+    "elo": [
+     0.277,
+     0.262,
+     0.461
+    ],
+    "goals": [
+     0.366,
+     0.256,
+     0.378
+    ],
+    "comb": [
+     0.313,
+     0.257,
+     0.43
+    ]
+   },
+   "xg": [
+    1.35,
+    1.38
+   ],
+   "market": [
+    0.321,
+    0.273,
+    0.406
+   ],
+   "features": {
+    "elo_diff": -137.7,
+    "xg_diff": -0.025,
+    "xg_total": 2.734,
+    "rest_diff": -1.0
+   },
+   "facts": {
+    "league_position": {
+     "home": 14,
+     "away": 3
+    },
+    "points": {
+     "home": 4,
+     "away": 10
+    },
+    "last_results_oldest_first": {
+     "home": "LWDLL",
+     "away": "WLDWW"
+    },
+    "newly_promoted": {
+     "home": false,
+     "away": false
+    },
+    "kickoff_uk": "2026-10-10 15:00"
+   }
+  },
+  {
+   "id": "Crystal Palace|Nott'm Forest",
+   "home": "Crystal Palace",
+   "away": "Nott'm Forest",
+   "kickoff_utc": "2026-10-11T13:00:00Z",
+   "final": null,
+   "probs": {
+    "elo": [
+     0.399,
+     0.265,
+     0.336
+    ],
+    "goals": [
+     0.346,
+     0.272,
+     0.381
+    ],
+    "comb": [
+     0.376,
+     0.275,
+     0.349
+    ]
+   },
+   "xg": [
+    1.19,
+    1.27
+   ],
+   "market": [
+    0.36,
+    0.29,
+    0.35
+   ],
+   "features": {
+    "elo_diff": -36.1,
+    "xg_diff": -0.073,
+    "xg_total": 2.46,
+    "rest_diff": -1.0
+   },
+   "facts": {
+    "league_position": {
+     "home": 15,
+     "away": 13
+    },
+    "points": {
+     "home": 4,
+     "away": 5
+    },
+    "last_results_oldest_first": {
+     "home": "LLWLD",
+     "away": "LDDWL"
+    },
+    "newly_promoted": {
+     "home": false,
+     "away": false
+    },
+    "kickoff_uk": "2026-10-11 14:00"
+   }
+  },
+  {
+   "id": "Hull|Everton",
+   "home": "Hull",
+   "away": "Everton",
+   "kickoff_utc": "2026-10-11T13:00:00Z",
+   "final": null,
+   "probs": {
+    "elo": [
+     0.313,
+     0.265,
+     0.422
+    ],
+    "goals": [
+     0.432,
+     0.327,
+     0.241
+    ],
+    "comb": [
+     0.338,
+     0.29,
+     0.373
+    ]
+   },
+   "xg": [
+    1.05,
+    0.7
+   ],
+   "market": [
+    0.266,
+    0.28,
+    0.454
+   ],
+   "features": {
+    "elo_diff": -105.9,
+    "xg_diff": 0.348,
+    "xg_total": 1.749,
+    "rest_diff": 0.0
+   },
+   "facts": {
+    "league_position": {
+     "home": 8,
+     "away": 7
+    },
+    "points": {
+     "home": 8,
+     "away": 9
+    },
+    "last_results_oldest_first": {
+     "home": "WWDDL",
+     "away": "WDDDW"
+    },
+    "newly_promoted": {
+     "home": true,
+     "away": false
+    },
+    "kickoff_uk": "2026-10-11 14:00"
+   }
+  },
+  {
+   "id": "Liverpool|Man City",
+   "home": "Liverpool",
+   "away": "Man City",
+   "kickoff_utc": "2026-10-11T15:30:00Z",
+   "final": null,
+   "probs": {
+    "elo": [
+     0.303,
+     0.264,
+     0.432
+    ],
+    "goals": [
+     0.309,
+     0.238,
+     0.453
+    ],
+    "comb": [
+     0.311,
+     0.253,
+     0.436
+    ]
+   },
+   "xg": [
+    1.36,
+    1.69
+   ],
+   "market": [
+    0.368,
+    0.259,
+    0.373
+   ],
+   "features": {
+    "elo_diff": -114.4,
+    "xg_diff": -0.33,
+    "xg_total": 3.041,
+    "rest_diff": 0.0
+   },
+   "facts": {
+    "league_position": {
+     "home": 6,
+     "away": 1
+    },
+    "points": {
+     "home": 9,
+     "away": 15
+    },
+    "last_results_oldest_first": {
+     "home": "DDWDW",
+     "away": "WWWWW"
+    },
+    "newly_promoted": {
+     "home": false,
+     "away": false
+    },
+    "kickoff_uk": "2026-10-11 16:30"
+   }
+  },
+  {
+   "id": "Coventry|Newcastle",
+   "home": "Coventry",
+   "away": "Newcastle",
+   "kickoff_utc": "2026-10-12T19:00:00Z",
+   "final": null,
+   "probs": {
+    "elo": [
+     0.25,
+     0.258,
+     0.492
+    ],
+    "goals": [
+     0.097,
+     0.211,
+     0.692
+    ],
+    "comb": [
+     0.192,
+     0.263,
+     0.545
+    ]
+   },
+   "xg": [
+    0.51,
+    1.82
+   ],
+   "market": [
+    0.291,
+    0.265,
+    0.444
+   ],
+   "features": {
+    "elo_diff": -162.3,
+    "xg_diff": -1.308,
+    "xg_total": 2.325,
+    "rest_diff": 0.0
+   },
+   "facts": {
+    "league_position": {
+     "home": 18,
+     "away": 9
+    },
+    "points": {
+     "home": 3,
+     "away": 8
+    },
+    "last_results_oldest_first": {
+     "home": "LLLLW",
+     "away": "DWDLW"
+    },
+    "newly_promoted": {
+     "home": true,
+     "away": false
+    },
+    "kickoff_uk": "2026-10-12 20:00"
+   }
+  }
+ ]
+}

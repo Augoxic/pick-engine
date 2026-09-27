@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pick Sheets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E8EDE7; --paper:#F6F8F4; --ink:#15231A; --soft:#4C5C51; --line:#C6D0C4;
+  --turf:#2E6B3B; --turf-2:#285F34; --chalk:#F4F7F2; --pylon:#E8641B; --model:#1D3557; --claude:#6B4FA0;
+  --good:#1F7A3A; --bad:#B23A2A;
+  --display:"Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --body:"Barlow", "Helvetica Neue", Arial, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#101813; --paper:#18221B; --ink:#E6ECE5; --soft:#A3B1A6; --line:#2E3B32;
+    --turf:#24552F; --turf-2:#1F4B29; --chalk:#E8EEE6; --pylon:#FF7A2E; --model:#9DB8E8; --claude:#B9A2E8;
+    --good:#58C27A; --bad:#F07A66;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101813; --paper:#18221B; --ink:#E6ECE5; --soft:#A3B1A6; --line:#2E3B32;
+  --turf:#24552F; --turf-2:#1F4B29; --chalk:#E8EEE6; --pylon:#FF7A2E; --model:#9DB8E8; --claude:#B9A2E8;
+  --good:#58C27A; --bad:#F07A66;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px);height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--body)}
+.wrap{max-width:980px;margin:0 auto;padding:0 18px 64px}
+p{max-width:68ch;margin:.6em 0}
+button{font:600 15px var(--body);cursor:pointer}
+button:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--pylon);outline-offset:2px}
+
+/* sport tabs */
+.tabbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--ink);color:var(--bg)}
+.tabs{max-width:980px;margin:0 auto;padding:0 10px;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;background:none;border:0;color:inherit;font:700 19px/1 var(--display);letter-spacing:.02em;padding:15px 14px 12px;border-bottom:4px solid transparent;opacity:.75}
+.tab[aria-selected="true"]{opacity:1;border-bottom-color:var(--pylon)}
+.tab:disabled{opacity:.35;cursor:default;font-weight:500}
+.tab:disabled small{font:500 12px var(--body);margin-left:5px}
+
+header.sport{padding-top:28px}
+h1{font:700 clamp(40px,8vw,72px)/.9 var(--display);letter-spacing:-.01em;margin:0}
+h1 small{display:block;font:600 20px/1.2 var(--display);color:var(--soft);letter-spacing:.01em;margin-top:8px}
+.lede{color:var(--soft)}
+
+.legend{display:flex;flex-wrap:wrap;gap:14px 20px;font-size:14px;color:var(--soft);margin:10px 0 0}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.mk{display:inline-block;width:12px;height:12px}
+.mk.elo{border:2px solid var(--model);border-radius:50%}
+.mk.eff{background:var(--model);border-radius:50%;opacity:.55}
+.mk.comb{background:var(--model);transform:rotate(45deg)}
+.mk.cl{background:var(--claude);border-radius:2px}
+.mk.mkt{width:4px;height:16px;background:var(--pylon)}
+.note{font-size:14px;color:var(--soft)}
+
+/* NFL field strip */
+.hero{margin:22px 0 8px}
+.field{position:relative;height:46px;border-radius:6px;background:var(--turf);overflow:hidden}
+.field .ln{position:absolute;top:0;bottom:0;width:1px;background:var(--chalk);opacity:.28}
+.field .ez{position:absolute;top:0;bottom:0;width:7%;display:flex;align-items:center;justify-content:center;color:var(--chalk);font:700 14px var(--display);letter-spacing:.04em;background:rgba(0,0,0,.18)}
+.field .ez.l{left:0}.field .ez.r{right:0}
+.field .mid{position:absolute;left:50%;top:0;bottom:0;width:2px;background:var(--chalk);opacity:.85}
+.field .yl{position:absolute;bottom:3px;color:var(--chalk);font:600 10px var(--display);opacity:.75;transform:translateX(-50%)}
+.field .pt{position:absolute;top:50%;width:13px;height:13px;margin:-6.5px 0 0 -6.5px;background:var(--chalk)}
+.field .pt.elo{border:2px solid var(--chalk);background:transparent;border-radius:50%}
+.field .pt.eff{border-radius:50%;opacity:.6}
+.field .pt.comb{transform:rotate(45deg);background:#fff;box-shadow:0 0 0 2px var(--model)}
+.field .pt.cl{background:var(--claude);border-radius:2px;box-shadow:0 0 0 2px #fff;width:11px;height:11px;margin:-5.5px 0 0 -5.5px}
+.field .mkt{position:absolute;top:4px;bottom:4px;width:4px;margin-left:-2px;background:var(--pylon);border-radius:2px}
+
+/* EPL pitch bar: home | draw | away */
+.pitch{position:relative;height:46px;border-radius:6px;overflow:hidden;display:flex;background:repeating-linear-gradient(90deg,var(--turf) 0 24px,var(--turf-2) 24px 48px)}
+.pitch .seg{position:relative;display:flex;align-items:center;padding:0 10px;color:var(--chalk);font:700 17px/1 var(--display);white-space:nowrap;overflow:hidden;min-width:0}
+.pitch .seg + .seg{border-left:2px solid var(--chalk)}
+.pitch .seg.d{justify-content:center;background:rgba(0,0,0,.22)}
+.pitch .seg.a{justify-content:flex-end}
+.pitch .seg small{font:500 13px var(--body);margin-left:6px;opacity:.85}
+.pitch .mkt{position:absolute;top:0;bottom:0;width:4px;margin-left:-2px;background:var(--pylon)}
+.pitch .mkt::after{content:"";position:absolute;left:-4px;top:0;border:6px solid transparent;border-top-color:var(--pylon)}
+
+.bt{margin:26px 0 8px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.bt h2,.nudge h2{font:700 26px/1.1 var(--display);margin:0 0 8px}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:15px;min-width:460px}
+th,td{text-align:right;padding:6px 10px;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left}
+th{font:600 14px var(--body);color:var(--soft)}
+tr.hl td{font-weight:600}
+.warn{border-left:4px solid var(--pylon);padding:6px 0 6px 12px;margin:12px 0 0}
+
+.nudge{margin:22px 0;display:grid;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.nudge h2,.nudge p{margin:0}
+.nudge .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{background:var(--claude);color:#fff;border:0;border-radius:8px;padding:10px 16px}
+.btn[disabled]{opacity:.5;cursor:default}
+.status{font-size:14px;color:var(--soft)}
+
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px}
+.filters button{background:transparent;border:1.5px solid var(--ink);color:var(--ink);border-radius:999px;padding:6px 14px}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+
+.slot{margin-top:30px}
+.slot h2{font:700 22px/1.1 var(--display);color:var(--soft);margin:0 0 8px}
+.game{padding:18px 0 20px;border-top:2px solid var(--ink)}
+.matchup{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:baseline;margin-bottom:10px}
+.teams{font:700 30px/1 var(--display)}
+.teams .at{color:var(--soft);font-weight:500;margin:0 .3em}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:13px;font-weight:600;padding:2px 9px;border-radius:4px;border:1.5px solid currentColor}
+.tag.doubt{color:var(--claude)}.tag.vs{color:var(--pylon)}.tag.final{color:var(--ink);background:var(--paper)}.tag.qb{color:var(--bad)}
+.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:6px 14px;margin-top:12px;font-size:14px}
+.nums div{display:flex;flex-direction:column}
+.nums b{font:600 18px/1.2 var(--display)}
+.nums .lab{color:var(--soft)}
+.nums .mkt b{color:var(--pylon)}
+.right b{color:var(--good)}.wrong b{color:var(--bad)}
+.ptab{margin-top:12px;font-size:15px}
+.ptab table{min-width:0;table-layout:fixed}
+.ptab th:first-child,.ptab td:first-child{width:34%}
+.ptab th{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ptab td.best{font-weight:700}
+.ptab tr.mkt td{color:var(--pylon)}
+.ptab tr.cl td:first-child{color:var(--claude)}
+details{margin-top:10px}
+summary{cursor:pointer;font-weight:600;font-size:15px}
+.bars{display:grid;gap:5px;margin:10px 0}
+.bar{display:grid;grid-template-columns:110px 1fr 52px;gap:10px;align-items:center;font-size:14px}
+.track{position:relative;height:10px;background:var(--line);border-radius:5px}
+.track i{position:absolute;top:0;bottom:0;border-radius:5px}
+.track::after{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--ink)}
+.bar .v{text-align:right;font-variant-numeric:tabular-nums}
+.facts{font-size:14px;color:var(--soft);margin:6px 0}
+.reason{font-size:15px;margin:8px 0}
+.reason b{color:var(--claude)}
+.empty{color:var(--soft);font-style:italic}
+[hidden]{display:none!important}
+@media (max-width:560px){.ptab{font-size:14px}.ptab th,.ptab td{padding:6px 5px}.field .ez{font-size:11px;letter-spacing:0}.teams{font-size:25px}.bar{grid-template-columns:90px 1fr 46px}.pitch .seg small{display:none}.tab{font-size:17px;padding:14px 10px 11px}}
+</style>
+</head>
+<body>
+<nav class="tabbar" aria-label="Sports">
+  <div class="tabs" role="tablist" id="tabs"></div>
+</nav>
+<div class="wrap" id="panels"><p class="empty" id="loading" style="padding-top:28px">Loading pick sheets…</p></div>
+<script>
+window.addEventListener("error", e => { const p = document.getElementById("panels"); if (p) { const m = document.createElement("p"); m.className = "empty"; m.style.paddingTop = "20px"; m.textContent = "Something went wrong loading this page: " + (e.message || "unknown error"); p.prepend(m); } });
+</script>
+
+<script>
+(() => {
+const NFL = __NFL__;
+const EPL = __EPL__;
+const SPORTS = [
+  {key:"nfl", label:"NFL", data:NFL},
+  {key:"epl", label:"Premier League", data:EPL},
+  {key:"laliga", label:"La Liga"}, {key:"seriea", label:"Serie A"}, {key:"bundesliga", label:"Bundesliga"},
+  {key:"ligue1", label:"Ligue 1"}, {key:"ucl", label:"Champions League"}, {key:"ligamx", label:"Liga MX"},
+  {key:"unl", label:"Nations League"}, {key:"ufc", label:"UFC"},
+];
+const TIERS = [["haiku_v4","Haiku 4.5 (prompt v4)"],["haiku","Haiku 4.5"],["sonnet","Sonnet 5"],["opus","Opus 5.5"]];
+const nudgesFrom = D => Object.fromEntries(TIERS.map(([k]) => [k, (D.nudges && D.nudges[k]) || {}]));
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; };
+const started = g => Date.now() >= Date.parse(g.kickoff_utc);
+const slotName = iso => { const d = new Date(iso); return d.toLocaleDateString("en-US", {weekday:"long", month:"short", day:"numeric", timeZone:"America/New_York"}) + ", " + d.toLocaleTimeString("en-US", {hour:"numeric", minute:"2-digit", timeZone:"America/New_York"}) + " ET"; };
+const builtText = iso => new Date(iso.replace("Z", ":00Z")).toLocaleString("en-US", {dateStyle:"medium", timeStyle:"short", timeZone:"America/New_York"}) + " ET";
+const pctTxt = p => Math.round(p * 100) + "%";
+
+function section(tag, cls, html) { const s = el(tag, cls); if (html) s.innerHTML = html; return s; }
+function filtersBar(options, onPick) {
+  const bar = el("div", "filters"); bar.setAttribute("role", "group"); bar.setAttribute("aria-label", "Filter games");
+  options.forEach(([key, label], i) => { const b = el("button", null, label); b.setAttribute("aria-pressed", String(i === 0)); b.onclick = () => { bar.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", String(x === b))); onPick(key); }; bar.append(b); });
+  return bar;
+}
+function grouped(list, games, card) {
+  list.replaceChildren();
+  if (!games.length) { list.append(el("p", "empty", "No games match this filter.")); return; }
+  const slots = new Map();
+  for (const g of games) { const k = slotName(g.kickoff_utc); if (!slots.has(k)) slots.set(k, []); slots.get(k).push(g); }
+  for (const [k, gs] of slots) { const s = el("section", "slot"); s.append(el("h2", null, k), ...gs.map(card)); list.append(s); }
+}
+function modelPanel(S, unit, blurb) {
+  const box = el("section", "nudge");
+  box.append(el("h2", null, "How each Claude model nudged the math"), el("p", "note", blurb));
+  const any = TIERS.some(([k]) => Object.keys(S.nudges[k]).length);
+  if (!any) { box.append(el("p", "note", "Not run yet for this slate. Run nudge.py before kickoff to add them.")); return box; }
+  const tb = el("div", "tbl"), t = el("table");
+  t.innerHTML = "<thead><tr><th>Model</th><th>Nudged</th><th>Average nudge</th><th>Biggest</th></tr></thead>";
+  const body = el("tbody");
+  for (const [k, label] of TIERS) {
+    const v = Object.values(S.nudges[k]).map(n => Math.abs(n.nudge)); const tr = el("tr");
+    tr.append(el("td", null, label), el("td", null, v.length ? v.filter(x => x > 0.001).length + " of " + v.length : "not run"),
+      el("td", null, v.length ? (v.reduce((a, b) => a + b, 0) / v.length).toFixed(2) + " " + unit : "–"), el("td", null, v.length ? Math.max(...v).toFixed(unit === "pts" ? 1 : 2) + " " + unit : "–"));
+    body.append(tr);
+  }
+  t.append(body); tb.append(t); box.append(tb);
+  box.append(el("p", "note", "Haiku 4.5: temperature 0, no thinking. Sonnet 5: adaptive thinking, default effort (high). Opus 5.5: adaptive thinking, default effort (medium). Prompt v4 is the original, looser prompt; v5 tells the models to leave most games alone. Nudges are saved before kickoff and never overwritten."));
+  return box;
+}
+
+// ======================= NFL =======================
+const NFL_TEAMS = {ARI:"Cardinals",ATL:"Falcons",BAL:"Ravens",BUF:"Bills",CAR:"Panthers",CHI:"Bears",CIN:"Bengals",CLE:"Browns",DAL:"Cowboys",DEN:"Broncos",DET:"Lions",GB:"Packers",HOU:"Texans",IND:"Colts",JAX:"Jaguars",KC:"Chiefs",LA:"Rams",LAC:"Chargers",LV:"Raiders",MIA:"Dolphins",MIN:"Vikings",NE:"Patriots",NO:"Saints",NYG:"Giants",NYJ:"Jets",PHI:"Eagles",PIT:"Steelers",SEA:"Seahawks",SF:"49ers",TB:"Buccaneers",TEN:"Titans",WAS:"Commanders"};
+const nflSport = {key:"nfl", data:NFL, nudges:nudgesFrom(NFL), filter:"all"};
+{
+  const S = nflSport, D = NFL, NAME = t => NFL_TEAMS[t] || t, RANGE = 30;
+  const winner = (g, m) => m >= 0 ? g.home : g.away;
+  const phi = x => { const t = 1/(1+0.3275911*Math.abs(x)/Math.SQRT2), y = 1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x/2); return 0.5*(1+Math.sign(x)*y); };
+  const pos = m => 50 + Math.max(-1, Math.min(1, m / RANGE)) * 43;
+  const qbChange = g => ["away","home"].filter(s => g.facts.qb_last_game[s] && g.facts.starting_qb[s] && g.facts.qb_last_game[s] !== g.facts.starting_qb[s]);
+  const nudged = (g, t) => { const n = S.nudges[t][g.id]; return n ? g.preds.comb.margin + n.nudge : null; };
+  const allM = g => [g.preds.elo.margin, g.preds.eff.margin, g.preds.comb.margin, ...TIERS.map(([t]) => nudged(g, t)).filter(v => v !== null)];
+  const F = { all: () => true, doubt: g => new Set(allM(g).map(m => m >= 0)).size > 1,
+    vs: g => g.market !== null && (g.preds.comb.margin >= 0) !== (g.market >= 0),
+    gap: g => g.market !== null && Math.abs(g.preds.comb.margin - g.market) >= 3 };
+  function field(g) {
+    const f = el("div", "field"); f.setAttribute("aria-hidden", "true");
+    f.append(el("span", "ez l", g.away), el("span", "ez r", g.home));
+    for (let y = -25; y <= 25; y += 5) { if (!y) continue; const ln = el("span", "ln"); ln.style.left = pos(y) + "%"; f.append(ln); }
+    f.append(el("span", "mid"));
+    for (const y of [-20, -10, 10, 20]) { const s = el("span", "yl", String(Math.abs(y))); s.style.left = pos(y) + "%"; f.append(s); }
+    if (g.market !== null) { const k = el("span", "mkt"); k.style.left = pos(g.market) + "%"; f.append(k); }
+    for (const k of ["elo", "eff", "comb"]) { const p = el("span", "pt " + k); p.style.left = pos(g.preds[k].margin) + "%"; f.append(p); }
+    for (const [t] of TIERS) { const m = nudged(g, t); if (m !== null) { const p = el("span", "pt cl"); p.style.left = pos(m) + "%"; f.append(p); } }
+    return f;
+  }
+  function num(g, label, m, hp, cls) {
+    const d = el("div", cls || ""); d.append(el("span", "lab", label));
+    if (m === null) { d.append(el("b", null, "–")); return d; }
+    d.append(el("b", null, NAME(winner(g, m)) + " by " + Math.abs(m).toFixed(1)));
+    if (hp !== undefined) d.append(el("span", null, Math.round((m >= 0 ? hp : 1 - hp) * 100) + "% to win"));
+    if (g.final) d.classList.add(((m >= 0) === (g.final[1] > g.final[0])) ? "right" : "wrong");
+    return d;
+  }
+  function card(g) {
+    const a = el("article", "game"), top = el("div", "matchup"), teams = el("div", "teams");
+    teams.append(NAME(g.away), el("span", "at", g.neutral ? "vs" : "at"), NAME(g.home));
+    const tags = el("div", "tags");
+    if (g.final) tags.append(el("span", "tag final", "Final: " + NAME(g.away) + " " + g.final[0] + ", " + NAME(g.home) + " " + g.final[1]));
+    if (F.doubt(g)) tags.append(el("span", "tag doubt", "Winner in doubt"));
+    if (F.vs(g)) tags.append(el("span", "tag vs", "Model vs Vegas"));
+    for (const s of qbChange(g)) tags.append(el("span", "tag qb", "New QB: " + NAME(g[s])));
+    if (g.neutral) tags.append(el("span", "tag", "Neutral site"));
+    top.append(teams, tags); a.append(top, field(g));
+    const nums = el("div", "nums");
+    nums.append(num(g, "Elo", g.preds.elo.margin, g.preds.elo.home_prob), num(g, "Elo + efficiency", g.preds.eff.margin, g.preds.eff.home_prob), num(g, "Combined", g.preds.comb.margin, g.preds.comb.home_prob));
+    if (TIERS.some(([t]) => S.nudges[t][g.id])) for (const [t, label] of TIERS) { const m = nudged(g, t); nums.append(num(g, label, m, m === null ? undefined : phi(m / D.sigma))); }
+    const mk = el("div", "mkt"); mk.append(el("span", "lab", "Vegas spread"), el("b", null, g.market === null ? "no line" : g.market === 0 ? "Pick'em" : NAME(winner(g, g.market)) + " by " + Math.abs(g.market))); nums.append(mk);
+    a.append(nums);
+    const det = el("details"); det.append(el("summary", null, "Why combined says " + NAME(winner(g, g.preds.comb.margin)) + " by " + Math.abs(g.preds.comb.margin).toFixed(1)));
+    const bars = el("div", "bars"), pickHome = g.preds.comb.margin >= 0;
+    for (const [k, v] of Object.entries(g.breakdown)) {
+      if (k === "Home field" && g.neutral) continue;
+      const row = el("div", "bar"), tr = el("div", "track"), fill = el("i"), w = Math.min(Math.abs(v) / 10, 1) * 50;
+      fill.style.width = w + "%"; fill.style.left = (v >= 0 ? 50 : 50 - w) + "%"; fill.style.background = (v >= 0) === pickHome ? "var(--good)" : "var(--bad)";
+      tr.append(fill); row.append(el("span", null, k), tr, el("span", "v", (v >= 0 ? "+" : "−") + Math.abs(v).toFixed(1))); bars.append(row);
+    }
+    const f = g.facts;
+    det.append(bars, el("p", "note", "Plus means toward the " + NAME(g.home) + ". Green pushes toward the pick, red against it."),
+      el("p", "facts", "Rest: " + NAME(g.away) + " " + f.rest_days.away + " days, " + NAME(g.home) + " " + f.rest_days.home + " days." + (f.divisional_game ? " Division game." : "") + (f.roof ? " Roof: " + f.roof + "." : "") + " Starting QBs: " + f.starting_qb.away + " and " + f.starting_qb.home + "."));
+    for (const [t, label] of TIERS) { const n = S.nudges[t][g.id]; if (!n) continue; const p = el("p", "reason"); p.append(el("b", null, label + " (" + (Math.abs(n.nudge) < .05 ? "no nudge" : (n.nudge > 0 ? "+" : "−") + Math.abs(n.nudge).toFixed(1) + " toward " + NAME(n.nudge > 0 ? g.home : g.away)) + "): "), n.reason); det.append(p); }
+    a.append(det); return a;
+  }
+  S.render = () => grouped(S.list, D.games.filter(F[S.filter]), card);
+  S.build = panel => {
+    const h = el("header", "sport");
+    h.append(section("h1", null, "NFL Pick Sheet<small>" + D.season + " season, week " + D.week + ". Built " + builtText(D.built_utc) + "</small>"),
+      el("p", "lede", "Three math models give every game a predicted margin and win chance. Four Claude models then nudge the best one by a few points using facts the math can't see, like a quarterback change. Claude never sees the betting line. The orange mark is Vegas, for comparison only."));
+    const hero = el("div", "hero"), demo = {away:"AWAY", home:"HOME", market:3, preds:{elo:{margin:-2}, eff:{margin:4}, comb:{margin:6.5}}, id:"demo"};
+    hero.append(field(demo));
+    hero.append(section("div", "legend", '<span><i class="mk elo"></i>Elo</span><span><i class="mk eff"></i>Elo + efficiency</span><span><i class="mk comb"></i>Combined</span><span><i class="mk cl"></i>Claude nudged</span><span><i class="mk mkt"></i>Vegas</span>'),
+      el("p", "note", "Each strip is the field. Marks toward the right mean the home team wins; the middle line is a toss-up. The numbers are points of margin, with a line every 5."));
+    const b = D.backtest, names = {vegas:"Vegas closing line", comb:"Combined", eff:"Elo + efficiency", elo:"Elo alone", home:"Always pick home"};
+    const bt = el("section", "bt"); bt.append(el("h2", null, "How the math did on the 2025 season"),
+      el("p", "note", "Weights were fit on " + b.train_games.toLocaleString() + " games from 2014 to 2024, then tested on all " + b.test_games + " games of 2025, which the models never saw."));
+    const tb = el("div", "tbl"), t = el("table"); t.innerHTML = "<thead><tr><th>Predictor</th><th>Winners</th><th>Brier</th><th>Against the spread</th></tr></thead>"; const body = el("tbody");
+    for (const r of b.rows) { const tr = el("tr", r.name === "comb" ? "hl" : ""); tr.append(el("td", null, names[r.name]), el("td", null, (100 * r.win).toFixed(1) + "%"), el("td", null, r.brier.toFixed(3)), el("td", null, r.ats_w === null ? "–" : r.ats_w + "–" + r.ats_l + " (" + (100 * r.ats_w / (r.ats_w + r.ats_l)).toFixed(1) + "%)")); body.append(tr); }
+    t.append(body); tb.append(t); const big = b.edge_buckets[b.edge_buckets.length - 1];
+    bt.append(tb, el("p", "note", "Brier scores the win chances: lower is better, 0.25 is a coin flip. Beating the spread at standard odds takes 52.4%."),
+      el("p", "note warn", "When combined disagreed with the spread by 5+ points, it went " + big.w + "–" + big.l + " against the spread. Big gaps usually mean Vegas knows something the model doesn't, like an injury."));
+    S.list = el("main");
+    panel.append(h, hero, bt, modelPanel(S, "pts", "Four Claude setups each read the same facts and the combined model's breakdown, then move the margin by up to 7 points with a reason. None of them see the betting line."),
+      filtersBar([["all","All games"],["doubt","Winner in doubt"],["vs","Model picks a different winner than Vegas"],["gap","3+ points off the line"]], k => { S.filter = k; S.render(); }), S.list);
+  };
+}
+
+// ======================= EPL =======================
+const eplSport = {key:"epl", data:EPL, nudges:nudgesFrom(EPL), filter:"all"};
+{
+  const S = eplSport, D = EPL, M = D.comb_model;
+  const OUT = ["Home win", "Draw", "Away win"];
+  const softmax = z => { const m = Math.max(...z), e = z.map(v => Math.exp(v - m)), s = e.reduce((a, b) => a + b, 0); return e.map(v => v / s); };
+  const combWith = (g, nudge) => { const x = M.features.map(f => g.features[f] + (f === "xg_diff" ? nudge : 0)); return softmax(M.coef.map((row, k) => M.intercept[k] + row.reduce((s, c, i) => s + c * x[i], 0))); };
+  const nudgedP = (g, t) => { const n = S.nudges[t][g.id]; return n ? combWith(g, n.nudge) : null; };
+  const fav = p => p.indexOf(Math.max(...p));
+  const favName = (g, p) => { const k = fav(p); return k === 0 ? g.home : k === 1 ? "Draw" : g.away; };
+  const allP = g => [g.probs.elo, g.probs.goals, g.probs.comb, ...TIERS.map(([t]) => nudgedP(g, t)).filter(Boolean)];
+  const F = { all: () => true,
+    doubt: g => new Set(allP(g).map(fav)).size > 1,
+    vs: g => g.market && fav(g.probs.comb) !== fav(g.market),
+    gap: g => g.market && g.probs.comb.some((p, i) => Math.abs(p - g.market[i]) >= 0.08) };
+  function pitch(g, p) {
+    const bar = el("div", "pitch"); bar.setAttribute("role", "img");
+    bar.setAttribute("aria-label", "Combined: " + g.home + " " + pctTxt(p[0]) + ", draw " + pctTxt(p[1]) + ", " + g.away + " " + pctTxt(p[2]));
+    const segs = [["h", g.home, p[0]], ["d", "Draw", p[1]], ["a", g.away, p[2]]];
+    for (const [c, name, v] of segs) { const s = el("div", "seg " + c); s.style.flex = "0 0 " + (v * 100) + "%"; s.append(pctTxt(v)); if (v > 0.2) s.append(el("small", null, name)); bar.append(s); }
+    if (g.market) for (const edge of [g.market[0], g.market[0] + g.market[1]]) { const k = el("span", "mkt"); k.style.left = (edge * 100) + "%"; bar.append(k); }
+    return bar;
+  }
+  function card(g) {
+    const a = el("article", "game"), top = el("div", "matchup"), teams = el("div", "teams");
+    teams.append(g.home, el("span", "at", "v"), g.away);
+    const tags = el("div", "tags");
+    if (g.final) tags.append(el("span", "tag final", "Final: " + g.home + " " + g.final[0] + "–" + g.final[1] + " " + g.away));
+    if (F.doubt(g)) tags.append(el("span", "tag doubt", "Result in doubt"));
+    if (F.vs(g)) tags.append(el("span", "tag vs", "Model vs market"));
+    for (const s of ["home", "away"]) if (g.facts.newly_promoted[s]) tags.append(el("span", "tag", "Promoted: " + g[s]));
+    top.append(teams, tags);
+    const best = g.probs.comb;
+    a.append(top, pitch(g, best));
+    const wrap = el("div", "ptab tbl"), t = el("table");
+    t.innerHTML = "<thead><tr><th>Predictor</th><th>" + g.home + "</th><th>Draw</th><th>" + g.away + "</th></tr></thead>";
+    const body = el("tbody");
+    const row = (label, p, cls) => { const tr = el("tr", cls || ""); tr.append(el("td", null, label)); const k = fav(p); p.forEach((v, i) => tr.append(el("td", i === k ? "best" : "", pctTxt(v)))); body.append(tr); };
+    row("Elo", g.probs.elo); row("Goals model", g.probs.goals); row("Combined", g.probs.comb);
+    for (const [tt, label] of TIERS) { const p = nudgedP(g, tt); if (p) row(label, p, "cl"); }
+    if (g.market) row("Market", g.market, "mkt");
+    t.append(body); wrap.append(t); a.append(wrap);
+    const det = el("details"); det.append(el("summary", null, "Why combined leans " + (fav(g.probs.comb) === 1 ? "toward a draw" : favName(g, g.probs.comb))));
+    const f = g.facts, pos = f.league_position, form = f.last_results_oldest_first;
+    det.append(el("p", "facts", "Expected goals from the goals model: " + g.home + " " + g.xg[0].toFixed(2) + ", " + g.away + " " + g.xg[1].toFixed(2) + ". Elo gap: " + (g.features.elo_diff >= 0 ? g.home : g.away) + " rated " + Math.abs(g.features.elo_diff).toFixed(0) + " points higher before home advantage."),
+      el("p", "facts", "Table: " + g.home + " " + (pos.home ? ordinal(pos.home) : "–") + " (" + (f.points.home ?? 0) + " pts, last results " + (form.home || "none") + "), " + g.away + " " + (pos.away ? ordinal(pos.away) : "–") + " (" + (f.points.away ?? 0) + " pts, " + (form.away || "none") + ")."));
+    for (const [tt, label] of TIERS) { const n = S.nudges[tt][g.id]; if (!n) continue; const p = el("p", "reason"); p.append(el("b", null, label + " (" + (Math.abs(n.nudge) < .01 ? "no nudge" : (n.nudge > 0 ? "+" : "−") + Math.abs(n.nudge).toFixed(2) + " goals toward " + (n.nudge > 0 ? g.home : g.away)) + "): "), n.reason); det.append(p); }
+    a.append(det); return a;
+  }
+  const ordinal = n => n + (["th","st","nd","rd"][(n % 100 - 20) % 10] || ["th","st","nd","rd"][n % 100] || "th");
+  S.render = () => grouped(S.list, D.games.filter(F[S.filter]), card);
+  S.build = panel => {
+    const h = el("header", "sport");
+    h.append(section("h1", null, "Premier League Pick Sheet<small>" + D.season + ", " + D.round + ". Built " + builtText(D.built_utc) + "</small>"),
+      el("p", "lede", "Soccer has three outcomes, so every match gets a home win, draw and away win chance instead of a margin. Four Claude models nudge the expected goal difference using facts the math can't see. It never sees the odds. The orange ticks show where the market splits the same three outcomes."));
+    const hero = el("div", "hero");
+    hero.append(pitch({home:"Home", away:"Away", market:[0.48, 0.26, 0.26]}, [0.52, 0.25, 0.23]),
+      el("p", "note", "Each bar is the pitch split three ways: home win on the left, draw in the middle, away win on the right. The orange ticks mark where the market splits the same bar, so a segment that stretches past its tick is one the model rates higher than the market."));
+    const b = D.backtest, names = {market:"Betting market (closing)", elo:"Elo alone", goals:"Goals model", comb:"Combined", home:"Always pick home"};
+    const bt = el("section", "bt"); bt.append(el("h2", null, "How the math did on the 2025–26 season"),
+      el("p", "note", "Weights were fit on " + b.train_games.toLocaleString() + " matches from 2012–13 to 2024–25, then tested on all " + b.test_games + " matches of 2025–26, which the models never saw."));
+    const tb = el("div", "tbl"), t = el("table"); t.innerHTML = "<thead><tr><th>Predictor</th><th>Picked the result</th><th>Brier</th><th>Value bets</th></tr></thead>"; const body = el("tbody");
+    for (const r of b.rows) { const tr = el("tr", r.name === "comb" ? "hl" : ""); tr.append(el("td", null, names[r.name]), el("td", null, (100 * r.acc).toFixed(1) + "%"), el("td", null, r.brier == null ? "–" : r.brier.toFixed(3)), el("td", null, r.bets ? r.bets + " bets, " + (r.roi >= 0 ? "+" : "−") + Math.abs(100 * r.roi).toFixed(1) + "% return" : "–")); body.append(tr); }
+    t.append(body); tb.append(t);
+    const comb = b.rows.find(r => r.name === "comb");
+    bt.append(tb, el("p", "note", "Brier here covers all three outcomes: lower is better, and guessing a third each scores 0.667. A value bet backs whichever outcome the model rates 3+ points higher than the market, at closing odds."),
+      el("p", "note warn", "The market beat every model, and the value bets lost " + Math.abs(100 * comb.roi).toFixed(1) + "% of the money staked. Treat disagreements with the market as questions to look into, not bets."));
+    S.list = el("main");
+    panel.append(h, hero, bt, modelPanel(S, "goals", "Four Claude setups each read the same facts and the model's expected goals, then move the expected goal difference by up to 1 goal with a reason. None of them see the odds. Market prices: " + D.market_source + "."),
+      filtersBar([["all","All matches"],["doubt","Result in doubt"],["vs","Model favours a different result than the market"],["gap","8+ points off the market"]], k => { S.filter = k; S.render(); }), S.list);
+  };
+}
+
+
+// ======================= tabs =======================
+const BUILT = {nfl: nflSport, epl: eplSport};
+const tabs = document.getElementById("tabs"), panels = document.getElementById("panels");
+for (const s of SPORTS) {
+  const b = el("button", "tab", s.label); b.setAttribute("role", "tab"); b.id = "tab-" + s.key;
+  if (!BUILT[s.key]) { b.disabled = true; b.append(el("small", null, "soon")); }
+  else {
+    b.setAttribute("aria-controls", "panel-" + s.key);
+    const p = el("section"); p.id = "panel-" + s.key; p.setAttribute("role", "tabpanel"); p.setAttribute("aria-labelledby", b.id); p.hidden = true;
+    try { BUILT[s.key].build(p); BUILT[s.key].render(); }
+    catch (e) { p.replaceChildren(el("p", "empty", "The " + s.label + " sheet couldn't load: " + e.message)); console.error(e); }
+    panels.append(p);
+    b.onclick = () => show(s.key);
+  }
+  tabs.append(b);
+}
+function show(key) {
+  if (!BUILT[key]) key = "nfl";
+  for (const k of Object.keys(BUILT)) { document.getElementById("panel-" + k).hidden = k !== key; document.getElementById("tab-" + k).setAttribute("aria-selected", String(k === key)); document.getElementById("tab-" + k).tabIndex = k === key ? 0 : -1; }
+  try { if (location.hash !== "#" + key) history.replaceState(null, "", "#" + key); } catch (e) { /* sandboxed viewers block URL changes */ }
+  try { window.scrollTo(0, 0); } catch (e) {}
+}
+tabs.addEventListener("keydown", e => {
+  if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+  const live = [...tabs.querySelectorAll(".tab:not(:disabled)")], i = live.indexOf(document.activeElement);
+  if (i < 0) return; const n = live[(i + (e.key === "ArrowRight" ? 1 : live.length - 1)) % live.length]; n.focus(); n.click();
+});
+let startKey = "nfl"; try { startKey = (location.hash || "#nfl").slice(1); } catch (e) {}
+show(startKey);
+const ld = document.getElementById("loading"); if (ld) ld.remove();
+
+})();
+</script>
+</body>
+</html>
