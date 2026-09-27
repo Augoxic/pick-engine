@@ -141,6 +141,13 @@ summary{cursor:pointer;font-weight:600;font-size:15px}
 .reason{font-size:15px;margin:8px 0}
 .reason b{color:var(--claude)}
 .empty{color:var(--soft);font-style:italic}
+.subnav{display:flex;gap:0;margin:20px 0 0;border:2px solid var(--ink);border-radius:8px;width:max-content;overflow:hidden}
+.subnav button{background:transparent;border:0;color:var(--ink);padding:9px 18px;font:700 18px/1 var(--display);letter-spacing:.02em}
+.subnav button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.subnav button:disabled{opacity:.4;cursor:default}
+select{font:600 15px var(--body);color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);border-radius:8px;padding:8px 10px;max-width:100%}
+table.props td.best{font-weight:700}
+.pos{font-size:12px;font-weight:600;color:var(--soft)}
 [hidden]{display:none!important}
 @media (max-width:560px){.ptab{font-size:14px}.ptab th,.ptab td{padding:6px 5px}.field .ez{font-size:11px;letter-spacing:0}.teams{font-size:25px}.bar{grid-template-columns:90px 1fr 46px}.pitch .seg small{display:none}.tab{font-size:17px;padding:14px 10px 11px}}
 </style>
@@ -285,9 +292,69 @@ const nflSport = {key:"nfl", data:NFL, nudges:nudgesFrom(NFL), filter:"all"};
     bt.append(tb, el("p", "note", "Brier scores the win chances: lower is better, 0.25 is a coin flip. Beating the spread at standard odds takes 52.4%."),
       el("p", "note warn", "When combined disagreed with the spread by 5+ points, it went " + big.w + "–" + big.l + " against the spread. Big gaps usually mean Vegas knows something the model doesn't, like an injury."));
     S.list = el("main");
-    panel.append(h, hero, bt, modelPanel(S, "pts", "Four Claude setups each read the same facts and the combined model's breakdown, then move the margin by up to 7 points with a reason. None of them see the betting line."),
+    const gamesView = el("div"), propsView = el("div"); propsView.hidden = true;
+    gamesView.append(hero, bt, modelPanel(S, "pts", "Four Claude setups each read the same facts and the combined model's breakdown, then move the margin by up to 7 points with a reason. None of them see the betting line."),
       filtersBar([["all","All games"],["doubt","Winner in doubt"],["vs","Model picks a different winner than Vegas"],["gap","3+ points off the line"]], k => { S.filter = k; S.render(); }), S.list);
+    if (D.props) buildProps(propsView, D, NAME);
+    const sub = el("div", "subnav"); sub.setAttribute("role", "group"); sub.setAttribute("aria-label", "NFL views");
+    const views = [["Game picks", gamesView], ["Anytime TD", propsView]];
+    for (const [label, view] of views) {
+      const b = el("button", null, label); b.setAttribute("aria-pressed", String(view === gamesView));
+      b.onclick = () => { for (const [, v] of views) v.hidden = v !== view; sub.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", String(x === b))); };
+      if (label === "Anytime TD" && !D.props) b.disabled = true;
+      sub.append(b);
+    }
+    panel.append(h, sub, gamesView, propsView);
   };
+}
+
+// ======================= NFL anytime TD =======================
+function buildProps(root, D, NAME) {
+  const P = D.props, B = P.backtest;
+  const pct = x => Math.round(x * 100) + "%";
+  const odds = n => (n > 0 ? "+" : "") + n;
+  root.append(el("p", "lede", "Chance each player scores a rushing or receiving touchdown, from nflverse play-by-play: red-zone and goal-line usage, recent touchdowns, role on the team this season, and how many points the market expects their team to score. Injured players listed Out or Doubtful are left off; Questionable players are flagged. Only the listed starting quarterback is included."));
+  const bt = el("section", "bt");
+  bt.append(el("h2", null, "How the TD model did on the 2025 season"),
+    el("p", "note", "Trained on " + B.train_rows.toLocaleString() + " player-games from 2016 to 2024, tested on " + B.test_rows.toLocaleString() + " player-games in 2025. " + pct(B.test_rate) + " of listed players scored in a given game."));
+  const tb = el("div", "tbl"), t = el("table");
+  t.innerHTML = "<thead><tr><th>Predictor</th><th>Brier</th><th>Log loss</th></tr></thead>";
+  const body = el("tbody");
+  for (const [label, r, hl] of [["TD model", B.test, true], ["Position average", B.baseline_position], ["Player's recent TD rate", B.baseline_recent_td_rate]]) {
+    const tr = el("tr", hl ? "hl" : ""); tr.append(el("td", null, label), el("td", null, r.brier.toFixed(3)), el("td", null, r.logloss.toFixed(3))); body.append(tr);
+  }
+  t.append(body); tb.append(t); bt.append(tb);
+  const cal = el("div", "tbl"), ct = el("table");
+  ct.innerHTML = "<thead><tr><th>Model said</th><th>Players</th><th>Model average</th><th>Actually scored</th></tr></thead>";
+  const cb = el("tbody");
+  for (const r of B.calibration) { const tr = el("tr"); tr.append(el("td", null, r.range.replace(/[(\]]/g, "").split(", ").map(x => Math.round(+x * 100) + "%").join(" to ")), el("td", null, r.n.toLocaleString()), el("td", null, pct(r.predicted)), el("td", null, pct(r.actual))); cb.append(tr); }
+  ct.append(cb); cal.append(ct);
+  bt.append(el("p", "note", "Lower is better for both scores. Calibration: when the model gave a chance, how often those players actually scored."), cal,
+    el("p", "note warn", "The model's top 10 each week scored " + pct(B.top10_weekly_hit) + " of the time in 2025 (it predicted " + pct(B.top10_weekly_pred) + "). Sportsbooks price TD props with a large margin, so only bet when the book's price is longer than the fair odds shown."));
+  root.append(bt);
+  const games = [...new Map(P.players.map(p => [p.game_id, p])).values()];
+  const bar = el("div", "filters"), sel = el("select");
+  sel.setAttribute("aria-label", "Choose a game");
+  sel.append(new Option("Top 30, all games", "all"));
+  for (const g of games) { const [a, h] = g.game_id.split("_").slice(2); sel.append(new Option(NAME(a) + " at " + NAME(h), g.game_id)); }
+  bar.append(sel); root.append(bar);
+  const list = el("div", "tbl"); root.append(list);
+  const draw = () => {
+    const rows = sel.value === "all" ? P.players.slice(0, 30) : P.players.filter(p => p.game_id === sel.value && p.p >= 0.08);
+    const tt = el("table", "props");
+    tt.innerHTML = "<thead><tr><th>Player</th><th>Team</th><th>Chance</th><th>Fair odds</th><th>Red-zone carries</th><th>Red-zone targets</th><th>Team pts (market)</th></tr></thead>";
+    const tbd = el("tbody");
+    for (const p of rows) {
+      const tr = el("tr"), nm = el("td"); nm.append(p.name + " ", el("span", "pos", p.pos));
+      if (p.questionable) nm.append(" ", el("span", "tag qb", "Questionable"));
+      tr.append(nm, el("td", null, NAME(p.team) + " vs " + NAME(p.opp)), el("td", "best", pct(p.p)), el("td", null, odds(p.fair)), el("td", null, pct(p.rz_car_share)), el("td", null, pct(p.rz_tgt_share)), el("td", null, p.team_pts.toFixed(1)));
+      tbd.append(tr);
+    }
+    tt.append(tbd); list.replaceChildren(tt);
+    if (!rows.length) list.replaceChildren(el("p", "empty", "No players at 8% or higher in this game."));
+  };
+  sel.onchange = draw; draw();
+  root.append(el("p", "note", "Red-zone shares are the player's share of his team's carries and targets inside the 20, weighted toward recent games. Team points are what the betting market implies from the spread and total."));
 }
 
 // ======================= EPL =======================

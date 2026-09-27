@@ -1,4 +1,4 @@
-"""Render every sport's sheet data, plus any saved Claude nudges, into one site with a tab per sport."""
+"""Render every sport's sheet data, plus saved Claude nudges and NFL TD props, into one site with a tab per sport."""
 import json, sys
 from pathlib import Path
 from nudge import SPORTS
@@ -8,6 +8,12 @@ def with_nudges(sport):
     cfg = SPORTS[sport]; data = json.loads(cfg["data"].read_text())
     f = root / "nudges" / sport / f"{cfg['slate'](data)}.json"
     data["nudges"] = json.loads(f.read_text()) if f.exists() else {}
+    if sport == "nfl":
+        pf = root / "props_data.json"
+        if pf.exists():
+            props = json.loads(pf.read_text())
+            if props.get("season") == data["season"] and props.get("week") == data["week"]:
+                data["props"] = props
     return json.dumps(data)
 
 html = (root / "site_template.html").read_text()

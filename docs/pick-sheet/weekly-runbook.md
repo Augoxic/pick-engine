@@ -4,7 +4,9 @@ Run before the first kickoff of each slate.
 
 ## NFL (Thursday before the week, or Sunday morning at the latest)
     python fetch_data.py
+    python fetch_player_data.py   # rosters and injury reports
     python build.py
+    python props_build.py
 
 ## EPL (before each matchday)
     cd epl
