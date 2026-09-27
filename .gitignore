@@ -2,3 +2,6 @@
 data/
 __pycache__/
 *.parquet
+*.zip
+pick-engine-td-props/
+pick-engine-injuries-mybets/
